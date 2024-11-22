@@ -1,0 +1,46 @@
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore user-specific files
+*.user
+*.userosscache
+*.suo
+*.log
+*.tlog
+*.ilk
+*.ipch
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.pdb
+*.dotCover
+.vscode/
+
+# Ignore Visual Studio/JetBrains Rider project files
+.vs/
+.idea/
+
+# Ignore Rider
+*.sln.iml
+
+# Ignore local NuGet packages and cache
+*.nupkg
+.nuget/
+
+# Ignore dotnet CLI-generated folders
+.vscode/
+*.vs/
+
+# Ignore npm package folder (if using Node.js)
+node_modules/
+
+# Ignore environment files
+.env
+.env.*
+
+# Ignore publish output
+publish/
+publish_output/
