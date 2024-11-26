@@ -1,5 +1,6 @@
-public class TransferItem : BaseEntityV2
+public class TransferItem 
 {
+    public Guid Id {get;set;}
     public Guid ItemId { get; set; }
     public Guid TransferId{get;set;}
     public int Amount { get; set; }
