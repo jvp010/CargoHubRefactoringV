@@ -1,12 +1,12 @@
-public class Client : BaseEntityV2
+public class Client : BaseEntity
 {
-    public string Name { get; set; }
-    public string Address { get; set; }
-    public string City { get; set; }
-    public string ZipCode { get; set; }
-    public string Province { get; set; }
-    public string Country { get; set; }
-    public string ContactName { get; set; }
-    public string ContactPhone { get; set; }
-    public string ContactEmail { get; set; }
+    public string name { get; set; }
+    public string address { get; set; }
+    public string city { get; set; }
+    public string zip_code { get; set; }
+    public string province { get; set; }
+    public string country { get; set; }
+    public string contact_name { get; set; }
+    public string contact_phone { get; set; }
+    public string contact_email { get; set; }
 }
