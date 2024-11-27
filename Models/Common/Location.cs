@@ -1,6 +1,6 @@
-public class Location : BaseEntityV2
+public class Location : BaseEntity
 {
-    public Guid WarehouseId { get; set; }
-    public string Code { get; set; }
-    public string Name { get; set; }
+    public int warehouse_id { get; set; }
+    public string code { get; set; }
+    public string name { get; set; }
 }

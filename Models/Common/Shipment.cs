@@ -1,19 +1,19 @@
-public class Shipment : BaseEntityV2
+public class Shipment : BaseEntity
 {
-    public Guid OrderId { get; set; }
-    // public Guid SourceId { get; set; } // deze mocht weg denk ik want het wees verder nergens naar.
-    public DateOnly OrderDate { get; set; } //dateonly??? want ->  "order_date": "2024-05-01",  -> in python versie
-    public DateOnly RequestDate { get; set; } //dateonly??? ...
-    public DateOnly ShipmentDate { get; set; } //dateonly??? ...
-    public string ShipmentType { get; set; }
-    public string ShipmentStatus { get; set; }
-    public string Notes { get; set; }
-    public string CarrierCode { get; set; }
-    public string CarrierDescription { get; set; }
-    public string ServiceCode { get; set; }
-    public string PaymentType { get; set; }
-    public string TransferMode { get; set; }
-    public int TotalPackageCount { get; set; }
-    public decimal TotalPackageWeight { get; set; }
-    public List<ShipmentItem> Items { get; set; }
+    public int order_id { get; set; }
+    public int source_id { get; set; } // deze mocht weg denk ik want het wees verder nergens naar.
+    public DateOnly order_date { get; set; } //dateonly??? want ->  "order_date": "2024-05-01",  -> in python versie
+    public DateOnly request_date { get; set; } //dateonly??? ...
+    public DateOnly shipment_date { get; set; } //dateonly??? ...
+    public string shipment_type { get; set; }
+    public string shipment_status { get; set; }
+    public string notes { get; set; }
+    public string carrier_code { get; set; }
+    public string carrier_description { get; set; }
+    public string service_code { get; set; }
+    public string payment_type { get; set; }
+    public string transfer_mode { get; set; }
+    public int total_package_count { get; set; }
+    public decimal total_package_weight { get; set; }
+    public List<ShipmentItem> items { get; set; }
 }
