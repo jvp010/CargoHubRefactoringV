@@ -12,7 +12,7 @@ public class Order : BaseEntity
     public int warehouse_id { get; set; }
     public int? ship_to { get; set; } // ID?? CLIENT ID
     public int? bill_to { get; set; } // ID??
-    public int shipment_id { get; set; }
+    public int? shipment_id { get; set; }
     public decimal total_amount { get; set; }
     public decimal total_discount { get; set; }
     public decimal total_tax { get; set; }

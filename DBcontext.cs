@@ -26,6 +26,37 @@ using Microsoft.EntityFrameworkCore;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // modelBuilder.Entity<Warehouse>()
+            // .OwnsOne(w => w.contact); // Mark Contact as owned by Warehouse
+
+            // modelBuilder.Entity<Item>()
+            // .HasKey(i => i.uid); // Specify the primary key
+
+            //  modelBuilder.Entity<OrderItem>()
+            // .HasNoKey();  // Make the entity keyless
+
+            // modelBuilder.Entity<Order>()
+            // .HasMany(o => o.items)  // Order has many OrderItems
+            // .WithOne()  // OrderItem has one Order (no navigation property in OrderItem)
+            // .HasForeignKey(oi => oi.order_id);  // Foreign key is order_id in OrderItem
+
+            modelBuilder.Entity<Item>()
+            .HasOne<ItemType>()                // Each Item belongs to one ItemGroup
+            .WithMany()                          // An ItemGroup can have many Items
+            .HasForeignKey(i => i.item_type)    // Foreign key on Item
+            .OnDelete(DeleteBehavior.Restrict);  // Restrict delete if referenced (you can change this as per your need)
+
+            modelBuilder.Entity<Item>()
+            .HasOne<ItemGroup>()                // Each Item belongs to one ItemGroup
+            .WithMany()                          // An ItemGroup can have many Items
+            .HasForeignKey(i => i.item_group)    // Foreign key on Item
+            .OnDelete(DeleteBehavior.Restrict);  // Restrict delete if referenced (you can change this as per your need)
+
+            modelBuilder.Entity<Item>()
+            .HasOne<ItemLine>()                // Each Item belongs to one ItemGroup
+            .WithMany()                          // An ItemGroup can have many Items
+            .HasForeignKey(i => i.item_line)    // Foreign key on Item
+            .OnDelete(DeleteBehavior.Restrict);  // Restrict delete if referenced (you can change this as per your need)
     
         }
     }

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,29 +24,72 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.MapGet("/weatherforecast", () =>
+using (var scope = app.Services.CreateScope())
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+  Console.WriteLine("enter in yes to load the jsons");
+  string answer = Console.ReadLine();
+  
+  if(answer == "yes")
+  {
+        var context = scope.ServiceProvider.GetRequiredService<ModelContext>();
+
+        // string jsonClient = File.ReadAllText("data/clients.json");
+        // List<Client> clients = JsonSerializer.Deserialize<List<Client>>(jsonClient);
+        // context.Clients.AddRange(clients); // succes
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        // string jsonItemGroups= File.ReadAllText("data/item_groups.json");                                           //
+        // List<ItemGroup> ItemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);                   //
+        // bool check = DuplicateCheck(ItemGroups);                                                                    //
+        // if(check == true) System.Console.WriteLine("duplicate found");                                              //
+        // else System.Console.WriteLine("duplicate not found");                                                       //
+                                                                                                                       //  duplicate key error/bug
+        // System.Console.WriteLine("enter something to continue");                                                    //
+        // string wait = Console.ReadLine();                                                                           //
+        // context.ItemGroups.AddRange(ItemGroups); // ergens hier is er een id duplicate                              //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // string jsonItem = File.ReadAllText("data/items.json");
+        // List<Item> items = JsonSerializer.Deserialize<List<Item>>(jsonItem);
+        // context.items.AddRange(items); kan pas werken als itemgroup goed is
+
+
+        
+        string jsonOrder = File.ReadAllText("data/orders.json");
+        List<Order> Orders = JsonSerializer.Deserialize<List<Order>>(jsonOrder);
+        context.orders.AddRange(Orders); // helaas ook fout
+
+        // string jsonInventory = File.ReadAllText("data/inventories.json");
+        // List<Inventory> Inventories = JsonSerializer.Deserialize<List<Inventory>>(jsonInventory);
+        // context.inventories.AddRange(Inventories); // inventory dont work yet
+
+        
+        // string jsonLocation = File.ReadAllText("data/locations.json");
+        // List<Location> locations = JsonSerializer.Deserialize<List<Location>>(jsonLocation);
+        // context.locations.AddRange(locations); // succes
+
+        
+
+
+        context.SaveChanges();
+  }
+  
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+static bool DuplicateCheck(List<ItemGroup> itemGroups){
+    List<int> Ids = [];
+
+    foreach (var item in itemGroups)
+    {
+        if(Ids.Contains(item.id)) return true;
+        Ids.Add(item.id);
+    }
+    return false;
+
 }
