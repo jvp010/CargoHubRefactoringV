@@ -42,12 +42,27 @@ using (var scope = app.Services.CreateScope())
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
         // string jsonItemGroups= File.ReadAllText("data/item_groups.json");                                           //
         // List<ItemGroup> ItemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);                   //
-        // bool check = DuplicateCheck(ItemGroups);                                                                    //
-        // if(check == true) System.Console.WriteLine("duplicate found");                                              //
-        // else System.Console.WriteLine("duplicate not found");                                                       //
-                                                                                                                       //  duplicate key error/bug
-        // System.Console.WriteLine("enter something to continue");                                                    //
-        // string wait = Console.ReadLine();                                                                           //
+        // // bool check = DuplicateCheck(ItemGroups);                                                                    //
+        // // if(check == true) System.Console.WriteLine("duplicate found");                                              //
+        // // else System.Console.WriteLine("duplicate not found");                                                       //
+        //                                                                                                             //   duplicate key error/bug
+        // // System.Console.WriteLine("enter something to continue");                                                    //
+        // // string wait = Console.ReadLine();
+        // foreach (var ItemGroup in ItemGroups)
+        // {
+        //     try
+        //     {
+        //         context.ItemGroups.Add(ItemGroup);
+
+        //     }
+        //     catch (System.Exception)
+        //     {
+                
+        //         System.Console.WriteLine($"{ItemGroup.name} is fout en homo");
+        //     }
+        // } 
+        // context.SaveChanges();
+        //                                                                   //
         // context.ItemGroups.AddRange(ItemGroups); // ergens hier is er een id duplicate                              //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -57,13 +72,13 @@ using (var scope = app.Services.CreateScope())
 
 
         
-        string jsonOrder = File.ReadAllText("data/orders.json");
-        List<Order> Orders = JsonSerializer.Deserialize<List<Order>>(jsonOrder);
-        context.orders.AddRange(Orders); // helaas ook fout
+        // string jsonOrder = File.ReadAllText("data/orders.json");
+        // List<Order> Orders = JsonSerializer.Deserialize<List<Order>>(jsonOrder);
+        // context.orders.AddRange(Orders); // helaas ook fout
 
         // string jsonInventory = File.ReadAllText("data/inventories.json");
         // List<Inventory> Inventories = JsonSerializer.Deserialize<List<Inventory>>(jsonInventory);
-        // context.inventories.AddRange(Inventories); // inventory dont work yet
+        // context.inventories.AddRange(Inventories); // inventory dont work yet // succes is gwn goed
 
         
         // string jsonLocation = File.ReadAllText("data/locations.json");
