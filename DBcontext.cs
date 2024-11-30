@@ -11,14 +11,10 @@ using Microsoft.EntityFrameworkCore;
         public DbSet<Item> Item {get;set;}
         public DbSet<Location> Location {get;set;}
         public DbSet<Order> Order {get;set;}
-        public DbSet<OrderItem> OrderItem {get;set;}
         public DbSet<Shipment> Shipment {get;set;}
-        public DbSet<ShipmentItem> ShipmentItem {get;set;}
         public DbSet<Supplier> Supplier {get;set;}
         public DbSet<Transfer> Transfer {get;set;}
-        public DbSet<TransferItem> TransferItem {get;set;}
         public DbSet<Warehouse> Warehouse {get;set;}
-        public DbSet<Contact> Contact { get; set; }
 
 
 
