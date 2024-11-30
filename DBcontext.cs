@@ -57,7 +57,20 @@ using Microsoft.EntityFrameworkCore;
             .WithMany()                          // An ItemGroup can have many Items
             .HasForeignKey(i => i.item_line)    // Foreign key on Item
             .OnDelete(DeleteBehavior.Restrict);  // Restrict delete if referenced (you can change this as per your need)
-    
+
+            // //
+            // modelBuilder.Entity<ItemLine>()
+            // .Property(p => p.id)
+            // .ValueGeneratedNever();
+
+            // modelBuilder.Entity<ItemGroup>()
+            // .Property(p => p.id)
+            // .ValueGeneratedNever();
+
+            // modelBuilder.Entity<ItemType>()
+            // .Property(p => p.id)
+            // .ValueGeneratedNever();
+            // // stopt de auto - increment van de id waardoor het laden van de jsons niet voor id conflicten zorgen 
         }
     }
 

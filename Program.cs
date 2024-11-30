@@ -39,42 +39,47 @@ using (var scope = app.Services.CreateScope())
         // List<Client> clients = JsonSerializer.Deserialize<List<Client>>(jsonClient);
         // context.Clients.AddRange(clients); // succes
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        // string jsonItemGroups= File.ReadAllText("data/item_groups.json");                                           //
-        // List<ItemGroup> ItemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);                   //
-        // // bool check = DuplicateCheck(ItemGroups);                                                                    //
-        // // if(check == true) System.Console.WriteLine("duplicate found");                                              //
-        // // else System.Console.WriteLine("duplicate not found");                                                       //
-        //                                                                                                             //   duplicate key error/bug
-        // // System.Console.WriteLine("enter something to continue");                                                    //
-        // // string wait = Console.ReadLine();
-        // foreach (var ItemGroup in ItemGroups)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        // string jsonItemLines= File.ReadAllText("data/item_lines.json");                                           
+        // List<ItemLine> ItemLines = JsonSerializer.Deserialize<List<ItemLine>>(jsonItemLines);
+        // List<ItemLine> newItemLines = [];
+        // foreach (var item in ItemLines)
         // {
-        //     try
-        //     {
-        //         context.ItemGroups.Add(ItemGroup);
-
-        //     }
-        //     catch (System.Exception)
-        //     {
-                
-        //         System.Console.WriteLine($"{ItemGroup.name} is fout en homo");
-        //     }
+        //     newItemLines.Add(new ItemLine{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
         // } 
-        // context.SaveChanges();
-        //                                                                   //
-        // context.ItemGroups.AddRange(ItemGroups); // ergens hier is er een id duplicate                              //
+        // context.itemLines.AddRange(newItemLines);
+
+        // string jsonItemGroups= File.ReadAllText("data/item_groups.json");                                           
+        // List<ItemGroup> ItemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);    
+        // List<ItemGroup> newItemGroup = [];
+        // foreach (var item in ItemGroups)
+        // {
+        //     newItemGroup.Add(new ItemGroup{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
+        // } 
+        // context.ItemGroups.AddRange(newItemGroup);
+
+        // string jsonItemTypes= File.ReadAllText("data/item_types.json");                                           
+        // List<ItemType> ItemTypes = JsonSerializer.Deserialize<List<ItemType>>(jsonItemTypes);    
+        // List<ItemType> newItemType = [];
+        // foreach (var item in ItemTypes)
+        // {
+        //     newItemType.Add(new ItemType{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
+        // } 
+        // context.itemTypes.AddRange(newItemType);  
+
+
+        // context.SaveChanges();    // succes
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // string jsonItem = File.ReadAllText("data/items.json");
         // List<Item> items = JsonSerializer.Deserialize<List<Item>>(jsonItem);
-        // context.items.AddRange(items); kan pas werken als itemgroup goed is
+        // context.items.AddRange(items); // succes
 
 
         
-        // string jsonOrder = File.ReadAllText("data/orders.json");
-        // List<Order> Orders = JsonSerializer.Deserialize<List<Order>>(jsonOrder);
-        // context.orders.AddRange(Orders); // helaas ook fout
+        string jsonOrder = File.ReadAllText("data/orders.json");
+        List<Order> Orders = JsonSerializer.Deserialize<List<Order>>(jsonOrder);
+        context.orders.AddRange(Orders); // helaas ook fout
 
         // string jsonInventory = File.ReadAllText("data/inventories.json");
         // List<Inventory> Inventories = JsonSerializer.Deserialize<List<Inventory>>(jsonInventory);
