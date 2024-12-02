@@ -4,20 +4,17 @@ using Microsoft.EntityFrameworkCore;
         // DbSets for your entities
 
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Inventory> inventories {get;set;}
+        public DbSet<Inventory> Inventorys {get;set;}
         public DbSet<ItemGroup> ItemGroups {get;set;}
-        public DbSet<ItemLine> itemLines {get;set;}
-        public DbSet<ItemType> itemTypes {get;set;}
-        public DbSet<Item> items {get;set;}
-        public DbSet<Location> locations {get;set;}
-        public DbSet<Order> orders {get;set;}
-        public DbSet<OrderItem> orderItems {get;set;}
-        public DbSet<Shipment> shipments {get;set;}
-        public DbSet<ShipmentItem> shipmentItems {get;set;}
-        public DbSet<Supplier> suppliers {get;set;}
-        public DbSet<Transfer> transfers {get;set;}
-        public DbSet<TransferItem> transferItems {get;set;}
-        public DbSet<Warehouse> warehouses {get;set;}
+        public DbSet<ItemLine> ItemLines {get;set;}
+        public DbSet<ItemType> ItemTypes {get;set;}
+        public DbSet<Item> Items {get;set;}
+        public DbSet<Location> Locations {get;set;}
+        public DbSet<Order> Orders {get;set;}
+        public DbSet<Shipment> Shipments {get;set;}
+        public DbSet<Supplier> Suppliers {get;set;}
+        public DbSet<Transfer> Transfers {get;set;}
+        public DbSet<Warehouse> Warehouses {get;set;}
 
 
 
@@ -26,51 +23,198 @@ using Microsoft.EntityFrameworkCore;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Entity<Warehouse>()
-            // .OwnsOne(w => w.contact); // Mark Contact as owned by Warehouse
 
-            // modelBuilder.Entity<Item>()
-            // .HasKey(i => i.uid); // Specify the primary key
+            modelBuilder.Entity<Shipment>()
+        .Ignore(s => s.items); // EF will completely ignore this property
 
-            //  modelBuilder.Entity<OrderItem>()
-            // .HasNoKey();  // Make the entity keyless
+           modelBuilder.Entity<Transfer>()
+        .Ignore(s => s.items); // EF will completely ignore this property
 
-            // modelBuilder.Entity<Order>()
-            // .HasMany(o => o.items)  // Order has many OrderItems
-            // .WithOne()  // OrderItem has one Order (no navigation property in OrderItem)
-            // .HasForeignKey(oi => oi.order_id);  // Foreign key is order_id in OrderItem
+        
+            modelBuilder.Entity<Order>()
+        .Ignore(s => s.items); // EF will completely ignore this property
 
-            modelBuilder.Entity<Item>()
-            .HasOne<ItemType>()                // Each Item belongs to one ItemGroup
-            .WithMany()                          // An ItemGroup can have many Items
-            .HasForeignKey(i => i.item_type)    // Foreign key on Item
-            .OnDelete(DeleteBehavior.Restrict);  // Restrict delete if referenced (you can change this as per your need)
+        //     // ITEM
+        //     modelBuilder.Entity<Item>()
+        //         .HasKey(i => i.uid); 
 
-            modelBuilder.Entity<Item>()
-            .HasOne<ItemGroup>()                // Each Item belongs to one ItemGroup
-            .WithMany()                          // An ItemGroup can have many Items
-            .HasForeignKey(i => i.item_group)    // Foreign key on Item
-            .OnDelete(DeleteBehavior.Restrict);  // Restrict delete if referenced (you can change this as per your need)
+        //     modelBuilder.Entity<Item>()
+        //         .Property(i => i.uid)
+        //         .IsRequired(); 
 
-            modelBuilder.Entity<Item>()
-            .HasOne<ItemLine>()                // Each Item belongs to one ItemGroup
-            .WithMany()                          // An ItemGroup can have many Items
-            .HasForeignKey(i => i.item_line)    // Foreign key on Item
-            .OnDelete(DeleteBehavior.Restrict);  // Restrict delete if referenced (you can change this as per your need)
+        //     modelBuilder.Entity<Item>()
+        //         .HasOne<ItemLine>()  
+        //         .WithMany()          
+        //         .HasForeignKey(i => i.item_line)
+        //         .IsRequired(false);
+            
+        //     modelBuilder.Entity<Item>()
+        //         .HasOne<ItemType>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.item_type)
+        //         .IsRequired(false);
+            
+        //     modelBuilder.Entity<Item>()
+        //         .HasOne<ItemGroup>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.item_group)
+        //         .IsRequired(false);
+            
+        //     modelBuilder.Entity<Item>()
+        //         .HasOne<Supplier>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.supplier_id);
 
-            // //
-            // modelBuilder.Entity<ItemLine>()
-            // .Property(p => p.id)
-            // .ValueGeneratedNever();
+        //     // Inventory
+        //     modelBuilder.Entity<Inventory>()
+        //         .HasKey(i => i.id);
+            
+        //     modelBuilder.Entity<Inventory>()
+        //         .Property(i => i.id)
+        //         .IsRequired();
 
-            // modelBuilder.Entity<ItemGroup>()
-            // .Property(p => p.id)
-            // .ValueGeneratedNever();
+        //     modelBuilder.Entity<Inventory>()
+        //         .HasOne<Item>()
+        //         .WithOne()
+        //         .HasForeignKey<Inventory>(i => i.item_id);
 
-            // modelBuilder.Entity<ItemType>()
-            // .Property(p => p.id)
-            // .ValueGeneratedNever();
-            // // stopt de auto - increment van de id waardoor het laden van de jsons niet voor id conflicten zorgen 
+        //     // modelBuilder.Entity<Inventory>()
+        //     //     .HasMany(i => i.locations)
+        //     //     .WithMany(l => l.inventories);
+
+        //     // Location
+        //     modelBuilder.Entity<Location>()
+        //         .HasKey(i => i.id);
+            
+        //     modelBuilder.Entity<Location>()
+        //         .Property(i => i.id)
+        //         .IsRequired();
+
+        //     modelBuilder.Entity<Location>()
+        //         .HasOne<Warehouse>()
+        //         .WithMany()
+        //         .HasForeignKey(l => l.warehouse_id);
+            
+        //     //OrdeR
+        //     modelBuilder.Entity<Order>()
+        //         .HasKey(i => i.id);
+            
+        //     modelBuilder.Entity<Order>()
+        //         .Property(i => i.id)
+        //         .IsRequired();
+
+        //     modelBuilder.Entity<Order>()
+        //         .HasOne<Warehouse>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.warehouse_id);
+            
+        //     modelBuilder.Entity<Order>()
+        //         .HasOne<Client>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.ship_to)
+        //         .IsRequired(false);
+        
+        //     modelBuilder.Entity<Order>()
+        //         .HasOne<Client>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.bill_to)
+        //         .IsRequired(false);
+            
+        //     modelBuilder.Entity<Order>()
+        //         .HasOne<Shipment>()
+        //         .WithOne()
+        //         .HasForeignKey<Order>(i => i.shipment_id);
+
+        //     modelBuilder.Entity<Order>(order =>
+        //     {
+        //         order.OwnsMany(o => o.items, item =>
+        //         {
+        //             item.Property(i => i.item_id).HasColumnName("item_id");
+        //             item.Property(i => i.amount).HasColumnName("amount");
+        //         });
+        //     });
+            
+        //     // shipment
+        //     modelBuilder.Entity<Shipment>()
+        //         .HasKey(i => i.id);
+            
+        //     modelBuilder.Entity<Shipment>()
+        //         .Property(i => i.id)
+        //         .IsRequired();
+                
+        //     modelBuilder.Entity<Shipment>()
+        //     .HasOne<Order>()
+        //     .WithOne()
+        //     .HasForeignKey<Shipment>(i => i.order_id)
+        //     .IsRequired(false); // Allow null values for order_id
+
+
+        //     modelBuilder.Entity<Shipment>(shipment =>
+        //     {
+        //         shipment.OwnsMany(s => s.items, item =>
+        //         {
+        //             item.Property(i => i.item_id).HasColumnName("item_id");
+        //             item.Property(i => i.amount).HasColumnName("amount");
+        //         });
+        //     });
+            
+        //     // suppleir
+        //     modelBuilder.Entity<Supplier>()
+        //         .HasKey(i => i.id);
+            
+        //     modelBuilder.Entity<Supplier>()
+        //         .Property(i => i.id)
+        //         .IsRequired();
+            
+        //     //transfer
+        //     modelBuilder.Entity<Transfer>()
+        //         .HasKey(i => i.id);
+            
+        //     modelBuilder.Entity<Transfer>()
+        //         .Property(i => i.id)
+        //         .IsRequired();
+            
+        //     modelBuilder.Entity<Transfer>()
+        //         .HasOne<Location>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.transfer_from)
+        //         .IsRequired(false);
+            
+        //     modelBuilder.Entity<Transfer>()
+        //         .HasOne<Location>()
+        //         .WithMany()
+        //         .HasForeignKey(i => i.transfer_to)
+        //         .IsRequired(false);
+
+        //     modelBuilder.Entity<Transfer>(transfer =>
+        //     {
+        //         // is eigenlijk ``OwnsOne`` omdat in de data file elke tranfer maar 1 transfer item opslaat, 
+        //         // maar omdat het wordt opgeslagen in een list moet het OwnsMany zijn. Is niet net als bij 
+        //         // warehouse wnt daar word contact wel gwn opgeslagen ipv in een list.
+        //         transfer.OwnsMany(t => t.items, item => 
+        //         {
+        //             item.Property(i => i.item_id).HasColumnName("item_id");
+        //             item.Property(i => i.amount).HasColumnName("amount");
+        //         });
+        //     });
+            
+        //     //warehouse 
+        //     modelBuilder.Entity<Warehouse>()
+        //         .HasKey(i => i.id);
+            
+        //     modelBuilder.Entity<Warehouse>()
+        //         .Property(i => i.id)
+        //         .IsRequired();
+
+        //     // modelBuilder.Entity<Warehouse>(warehouse =>
+        //     // {
+        //     //     warehouse.OwnsOne(w => w.contact, contact =>
+        //     //     {
+        //     //         contact.Property(i => i.name).HasColumnName("contact_name");
+        //     //         contact.Property(i => i.phone).HasColumnName("contact_phone");
+        //     //         contact.Property(i => i.email).HasColumnName("contact_email");
+        //     //     });
+        //     // });
+
         }
     }
-

@@ -11,3 +11,4 @@ public class Warehouse : BaseEntity
     public string country { get; set; }
     public Contact contact { get; set; } // todo
 }
+

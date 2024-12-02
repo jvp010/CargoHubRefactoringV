@@ -1,6 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
 public class ShipmentItem{
-    public int id {get;set;}
+    [Key]
     public string item_id { get; set; }
-    public int shipment_id {get;set;}
     public int amount { get; set; }
 }

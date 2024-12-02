@@ -1,8 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 public class OrderItem 
 {
-    public int id{get;set;}
+    [Key]
     public string item_id { get; set; }
-    public int order_id {get;set;}
     public int amount { get; set; }
 }
 
