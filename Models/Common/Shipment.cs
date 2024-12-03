@@ -17,3 +17,4 @@ public class Shipment : BaseEntity
     public decimal total_package_weight { get; set; }
     public List<ShipmentItem> items { get; set; }
 }
+

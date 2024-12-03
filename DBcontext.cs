@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
     public class ModelContext : DbContext
     {
         // DbSets for your entities
-
         public DbSet<Client> Clients { get; set; }
         public DbSet<Inventory> Inventorys {get;set;}
         public DbSet<ItemGroup> ItemGroups {get;set;}
