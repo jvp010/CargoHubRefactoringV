@@ -1,38 +1,49 @@
 using Microsoft.EntityFrameworkCore;
-    public class ModelContext : DbContext
+public class ModelContext : DbContext
+{
+
+    public DbSet<Shipment> Shipments { get; set; }
+    public DbSet<ShipmentItem> ShipmentItems { get; set; }
+
+    public DbSet<Transfer> Transfers { get; set; }
+    public DbSet<TransferItem> TransferItems { get; set; }
+
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
+
+    public DbSet<Supplier> Suppliers { get; set; }
+
+    public DbSet<Item> Items { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+
+    public DbSet<Location> Locations { get; set; }
+
+    public DbSet<ItemGroup> ItemGroups { get; set; }
+
+    public DbSet<ItemLine> ItemLines { get; set; }
+
+    public DbSet<ItemType> ItemTypes { get; set; }
+
+    public DbSet<Inventory> Inventorys{get;set;}
+
+    public DbSet<Client> Clients {get;set;}
+
+    public ModelContext(DbContextOptions<ModelContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // DbSets for your entities
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Inventory> Inventorys {get;set;}
-        public DbSet<ItemGroup> ItemGroups {get;set;}
-        public DbSet<ItemLine> ItemLines {get;set;}
-        public DbSet<ItemType> ItemTypes {get;set;}
-        public DbSet<Item> Items {get;set;}
-        public DbSet<Location> Locations {get;set;}
-        public DbSet<Order> Orders {get;set;}
-        public DbSet<Shipment> Shipments {get;set;}
-        public DbSet<Supplier> Suppliers {get;set;}
-        public DbSet<Transfer> Transfers {get;set;}
-        public DbSet<Warehouse> Warehouses {get;set;}
 
+        modelBuilder.Entity<TransferItem>()
+    .Property(o => o.tranfer_item_id)
+    .ValueGeneratedOnAdd();
 
+        modelBuilder.Entity<OrderItem>()
+        .Property(o => o.order_item_id)
+        .ValueGeneratedOnAdd();
 
-
-        public ModelContext(DbContextOptions<ModelContext> options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
-            modelBuilder.Entity<Shipment>()
-        .Ignore(s => s.items); // EF will completely ignore this property
-
-           modelBuilder.Entity<Transfer>()
-        .Ignore(s => s.items); // EF will completely ignore this property
-
-        
-            modelBuilder.Entity<Order>()
-        .Ignore(s => s.items); // EF will completely ignore this property
-
+        modelBuilder.Entity<ShipmentItem>()
+        .Property(o => o.shipment_item_id)
+        .ValueGeneratedOnAdd();
         //     // ITEM
         //     modelBuilder.Entity<Item>()
         //         .HasKey(i => i.uid); 
@@ -46,19 +57,19 @@ using Microsoft.EntityFrameworkCore;
         //         .WithMany()          
         //         .HasForeignKey(i => i.item_line)
         //         .IsRequired(false);
-            
+
         //     modelBuilder.Entity<Item>()
         //         .HasOne<ItemType>()
         //         .WithMany()
         //         .HasForeignKey(i => i.item_type)
         //         .IsRequired(false);
-            
+
         //     modelBuilder.Entity<Item>()
         //         .HasOne<ItemGroup>()
         //         .WithMany()
         //         .HasForeignKey(i => i.item_group)
         //         .IsRequired(false);
-            
+
         //     modelBuilder.Entity<Item>()
         //         .HasOne<Supplier>()
         //         .WithMany()
@@ -67,7 +78,7 @@ using Microsoft.EntityFrameworkCore;
         //     // Inventory
         //     modelBuilder.Entity<Inventory>()
         //         .HasKey(i => i.id);
-            
+
         //     modelBuilder.Entity<Inventory>()
         //         .Property(i => i.id)
         //         .IsRequired();
@@ -84,7 +95,7 @@ using Microsoft.EntityFrameworkCore;
         //     // Location
         //     modelBuilder.Entity<Location>()
         //         .HasKey(i => i.id);
-            
+
         //     modelBuilder.Entity<Location>()
         //         .Property(i => i.id)
         //         .IsRequired();
@@ -93,11 +104,11 @@ using Microsoft.EntityFrameworkCore;
         //         .HasOne<Warehouse>()
         //         .WithMany()
         //         .HasForeignKey(l => l.warehouse_id);
-            
+
         //     //OrdeR
         //     modelBuilder.Entity<Order>()
         //         .HasKey(i => i.id);
-            
+
         //     modelBuilder.Entity<Order>()
         //         .Property(i => i.id)
         //         .IsRequired();
@@ -106,19 +117,19 @@ using Microsoft.EntityFrameworkCore;
         //         .HasOne<Warehouse>()
         //         .WithMany()
         //         .HasForeignKey(i => i.warehouse_id);
-            
+
         //     modelBuilder.Entity<Order>()
         //         .HasOne<Client>()
         //         .WithMany()
         //         .HasForeignKey(i => i.ship_to)
         //         .IsRequired(false);
-        
+
         //     modelBuilder.Entity<Order>()
         //         .HasOne<Client>()
         //         .WithMany()
         //         .HasForeignKey(i => i.bill_to)
         //         .IsRequired(false);
-            
+
         //     modelBuilder.Entity<Order>()
         //         .HasOne<Shipment>()
         //         .WithOne()
@@ -132,15 +143,15 @@ using Microsoft.EntityFrameworkCore;
         //             item.Property(i => i.amount).HasColumnName("amount");
         //         });
         //     });
-            
+
         //     // shipment
         //     modelBuilder.Entity<Shipment>()
         //         .HasKey(i => i.id);
-            
+
         //     modelBuilder.Entity<Shipment>()
         //         .Property(i => i.id)
         //         .IsRequired();
-                
+
         //     modelBuilder.Entity<Shipment>()
         //     .HasOne<Order>()
         //     .WithOne()
@@ -156,29 +167,29 @@ using Microsoft.EntityFrameworkCore;
         //             item.Property(i => i.amount).HasColumnName("amount");
         //         });
         //     });
-            
+
         //     // suppleir
         //     modelBuilder.Entity<Supplier>()
         //         .HasKey(i => i.id);
-            
+
         //     modelBuilder.Entity<Supplier>()
         //         .Property(i => i.id)
         //         .IsRequired();
-            
+
         //     //transfer
         //     modelBuilder.Entity<Transfer>()
         //         .HasKey(i => i.id);
-            
+
         //     modelBuilder.Entity<Transfer>()
         //         .Property(i => i.id)
         //         .IsRequired();
-            
+
         //     modelBuilder.Entity<Transfer>()
         //         .HasOne<Location>()
         //         .WithMany()
         //         .HasForeignKey(i => i.transfer_from)
         //         .IsRequired(false);
-            
+
         //     modelBuilder.Entity<Transfer>()
         //         .HasOne<Location>()
         //         .WithMany()
@@ -196,11 +207,11 @@ using Microsoft.EntityFrameworkCore;
         //             item.Property(i => i.amount).HasColumnName("amount");
         //         });
         //     });
-            
+
         //     //warehouse 
         //     modelBuilder.Entity<Warehouse>()
         //         .HasKey(i => i.id);
-            
+
         //     modelBuilder.Entity<Warehouse>()
         //         .Property(i => i.id)
         //         .IsRequired();
@@ -215,5 +226,5 @@ using Microsoft.EntityFrameworkCore;
         //     //     });
         //     // });
 
-        }
     }
+}
