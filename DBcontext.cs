@@ -112,8 +112,7 @@ using Microsoft.EntityFrameworkCore;
             modelBuilder.Entity<Order>()
                 .HasOne<Shipment>()
                 .WithOne()
-                .HasForeignKey<Order>(i => i.shipment_id)
-                .IsRequired(false);
+                .HasForeignKey<Order>(i => i.shipment_id);
 
             modelBuilder.Entity<Order>(order =>
             {
@@ -132,10 +131,10 @@ using Microsoft.EntityFrameworkCore;
                 .Property(i => i.id)
                 .IsRequired();
                 
-            modelBuilder.Entity<Shipment>()
-                .HasOne<Order>()
-                .WithOne()
-                .HasForeignKey<Shipment>(i => i.order_id);
+            // modelBuilder.Entity<Shipment>()    => removed to prevent circular fk restraint
+            //     .HasOne<Order>()
+            //     .WithOne()
+            //     .HasForeignKey<Shipment>(i => i.order_id);
 
             modelBuilder.Entity<Shipment>(shipment =>
             {
