@@ -33,17 +33,18 @@ public class ModelContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        modelBuilder.Entity<TransferItem>()
-    .Property(o => o.tranfer_item_id)
-    .ValueGeneratedOnAdd();
+    //     modelBuilder.Entity<TransferItem>()
+    // .Property(o => o.tranfer_item_id)
+    // .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<OrderItem>()
-        .Property(o => o.order_item_id)
-        .ValueGeneratedOnAdd();
+    //     modelBuilder.Entity<OrderItem>()
+    //     .Property(o => o.order_item_id)
+    //     .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<ShipmentItem>()
-        .Property(o => o.shipment_item_id)
-        .ValueGeneratedOnAdd();
+    //     modelBuilder.Entity<ShipmentItem>()
+    //     .Property(o => o.shipment_item_id)
+    //     .ValueGeneratedOnAdd();
+    //======================================================== de 3 boven kan genegeerd worden
         //     // ITEM
         //     modelBuilder.Entity<Item>()
         //         .HasKey(i => i.uid); 

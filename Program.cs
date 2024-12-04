@@ -175,7 +175,6 @@ using (var scope = app.Services.CreateScope())
 
         context.SaveChanges();
 
-        Order order =context.Orders.Include(T => T.items).FirstOrDefault(i => i.id == 1);
 
 
 
