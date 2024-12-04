@@ -1,6 +1,6 @@
 public class Shipment : BaseEntity
 {
-    public int order_id { get; set; }
+    //public int order_id { get; set; }
     public int source_id { get; set; } // deze mocht weg denk ik want het wees verder nergens naar.
     public DateOnly order_date { get; set; } //dateonly??? want ->  "order_date": "2024-05-01",  -> in python versie
     public DateOnly request_date { get; set; } //dateonly??? ...
