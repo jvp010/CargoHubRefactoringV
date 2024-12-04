@@ -112,7 +112,8 @@ using Microsoft.EntityFrameworkCore;
             modelBuilder.Entity<Order>()
                 .HasOne<Shipment>()
                 .WithOne()
-                .HasForeignKey<Order>(i => i.shipment_id);
+                .HasForeignKey<Order>(i => i.shipment_id)
+                .IsRequired(false);
 
             modelBuilder.Entity<Order>(order =>
             {
