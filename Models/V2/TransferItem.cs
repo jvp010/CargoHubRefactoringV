@@ -1,7 +1,6 @@
 public class TransferItem 
 {
     public string item_id { get; set; }
-    public int transfer_id {get;set;}
     public int amount { get; set; }
 }
 
