@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+
 public class Item
 {
+    [Key]
     public string uid { get; set; }
     public string code { get; set; }
     public string description { get; set; }

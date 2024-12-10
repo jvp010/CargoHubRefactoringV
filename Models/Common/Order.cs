@@ -8,11 +8,11 @@ public class Order : BaseEntity
     public string order_status { get; set; }
     public string notes { get; set; }
     public string shipping_notes { get; set; }
-    public string picking_note { get; set; }
+    public string? picking_note { get; set; }
     public int warehouse_id { get; set; }
     public int? ship_to { get; set; } // ID?? CLIENT ID
     public int? bill_to { get; set; } // ID??
-    public int shipment_id { get; set; }
+    public int? shipment_id { get; set; }
     public decimal total_amount { get; set; }
     public decimal total_discount { get; set; }
     public decimal total_tax { get; set; }
