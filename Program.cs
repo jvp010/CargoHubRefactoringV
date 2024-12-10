@@ -171,7 +171,7 @@ using (var scope = app.Services.CreateScope())
             });
             
         }
-        context.Orders.AddRange(newOrders); //success
+        context.Orders.AddRange(newOrders.Take(6858)); //success
 
         context.SaveChanges();
 
