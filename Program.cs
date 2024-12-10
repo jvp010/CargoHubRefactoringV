@@ -13,7 +13,7 @@ builder.Services.AddDbContext<ModelContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"))
                        .EnableSensitiveDataLogging());  // Enable detailed logging
 // postgres DB
-// Alles een voor een runnen om te kijken wat er goed en mogelijk mis gaat.
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,7 +29,6 @@ app.UseHttpsRedirection();
 
 using (var scope = app.Services.CreateScope())
 {
-
     Console.WriteLine("enter in yes to load the jsons");
     string answer = Console.ReadLine();
 
@@ -37,48 +36,37 @@ using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<ModelContext>();
 
-        // string jsonClient = File.ReadAllText("data/clients.json");
-        // List<Client> clients = JsonSerializer.Deserialize<List<Client>>(jsonClient);
-        // context.Clients.AddRange(clients); // succes
+        string jsonClient = File.ReadAllText("data/clients.json");
+        List<Client> clients = JsonSerializer.Deserialize<List<Client>>(jsonClient);
+        context.Clients.AddRange(clients); // succes
 
         // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        string jsonItemLines = File.ReadAllText("data/item_lines.json");
+        string jsonItemLines= File.ReadAllText("data/item_lines.json");                                           
         List<ItemLine> ItemLines = JsonSerializer.Deserialize<List<ItemLine>>(jsonItemLines);
-        List<ItemLine> newItemLines = new();
-
+        List<ItemLine> newItemLines = [];
         foreach (var item in ItemLines)
         {
-            newItemLines.Add(new ItemLine
-            {
-                // Laat het ID leeg of zet het op 0; de database sequence vult het automatisch aan
-                name = item.name,
-                description = item.description,
-                created_at = item.created_at,
-                updated_at = item.updated_at
-            });
-        }
+            newItemLines.Add(new ItemLine{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
+        } 
         context.ItemLines.AddRange(newItemLines);
 
+        string jsonItemGroups= File.ReadAllText("data/item_groups.json");                                           
+        List<ItemGroup> ItemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);    
+        List<ItemGroup> newItemGroup = [];
+        foreach (var item in ItemGroups)
+        {
+            newItemGroup.Add(new ItemGroup{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
+        } 
+        context.ItemGroups.AddRange(newItemGroup);
 
-
-        // string jsonItemGroups = File.ReadAllText("data/item_groups.json");
-        // List<ItemGroup> ItemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);
-        // List<ItemGroup> newItemGroup = [];
-        // foreach (var item in ItemGroups)
-        // {
-        //     newItemGroup.Add(new ItemGroup { id = 0, name = item.name, description = item.description, created_at = item.created_at, updated_at = item.updated_at });
-        // }
-        // context.ItemGroups.AddRange(newItemGroup);
-
-        // string jsonItemTypes = File.ReadAllText("data/item_types.json");
-        // List<ItemType> ItemTypes = JsonSerializer.Deserialize<List<ItemType>>(jsonItemTypes);
-        // List<ItemType> newItemType = [];
-        // // foreach (var item in ItemTypes)
-        // // {
-        // //     newItemType.Add(new ItemType { id = 0, name = item.name, description = item.description, created_at = item.created_at, updated_at = item.updated_at });
-        // // }
-        // context.ItemTypes.Add(ItemTypes[0]);
-        // context.SaveChanges();
+        string jsonItemTypes= File.ReadAllText("data/item_types.json");                                           
+        List<ItemType> ItemTypes = JsonSerializer.Deserialize<List<ItemType>>(jsonItemTypes);    
+        List<ItemType> newItemType = [];
+        foreach (var item in ItemTypes)
+        {
+            newItemType.Add(new ItemType{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
+        } 
+        context.ItemTypes.AddRange(newItemType);  
 
 
         string jsonSuppliers = File.ReadAllText("data/suppliers.json");
@@ -87,13 +75,14 @@ using (var scope = app.Services.CreateScope())
 
 
         context.SaveChanges();    // succes
-                                  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         string jsonItem = File.ReadAllText("data/items.json");
         List<Item> items = JsonSerializer.Deserialize<List<Item>>(jsonItem);
         context.Items.AddRange(items); // succes
-
         context.SaveChanges();    // succes
+
+
 
         string jsonWarehouse = File.ReadAllText("data/warehouses.json");
         List<Warehouse> Warehouses = JsonSerializer.Deserialize<List<Warehouse>>(jsonWarehouse);
@@ -180,9 +169,8 @@ using (var scope = app.Services.CreateScope())
                 total_surcharge = item.total_surcharge,
                 items = new List<OrderItem>(item.items)  // Ensure items list is copied correctly
             });
+            
         }
-
-
         context.Orders.AddRange(newOrders); //success
 
         context.SaveChanges();
@@ -197,10 +185,10 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
 
 
-        // }
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 app.Run();
 
 
