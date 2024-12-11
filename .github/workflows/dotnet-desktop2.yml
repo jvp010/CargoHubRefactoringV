@@ -19,11 +19,11 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
+    # - name: Restore dependencies
+    #   run: dotnet restore
 
-    - name: Add Test Platform Dependency
-      run: dotnet add package Microsoft.TestPlatform 
+    # - name: Add Test Platform Dependency
+    #   run: dotnet add package Microsoft.TestPlatform.CommunicationUtilities
 
     - name: Clean previous build artifacts
       run: dotnet clean
