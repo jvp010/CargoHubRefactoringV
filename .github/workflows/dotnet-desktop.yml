@@ -1,11 +1,3 @@
-name: .NET Core Desktop
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
 jobs:
   build:
     strategy:
@@ -29,20 +21,17 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2
+    - name: Clear NuGet cache
+      run: dotnet nuget locals all --clear
 
-    - name: Restore NuGet packages
-      run: dotnet restore $env:Solution_Name
+    - name: Restore dependencies
+      run: dotnet restore
 
-    - name: Build the solution
+    - name: Install required workloads
+      run: dotnet workload install microsoft-testplatform
+
+    - name: Build solution
       run: dotnet build $env:Solution_Name --configuration ${{ matrix.configuration }}
 
-    - name: Execute unit tests
-      run: dotnet test $env:Solution_Name --configuration ${{ matrix.configuration }}
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: Build Output
-        path: bin\${{ matrix.configuration }}
+    - name: Run unit tests
+      run: dotnet test $env:TestProject --configuration ${{ matrix.configuration }} --no-build --verbosity detailed
