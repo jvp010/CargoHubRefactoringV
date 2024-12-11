@@ -23,7 +23,7 @@ jobs:
       run: dotnet restore
 
     - name: Add Test Platform Dependency
-      run: dotnet add package Microsoft.TestPlatform --version 17.11.1
+      run: dotnet add package Microsoft.TestPlatform 
 
     - name: Clean previous build artifacts
       run: dotnet clean
