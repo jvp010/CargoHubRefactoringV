@@ -26,9 +26,7 @@ jobs:
       run: dotnet restore
 
     - name: Add Test Platform Dependencies
-      run: |
-        dotnet add package Microsoft.TestPlatform.CommunicationUtilities --version 17.11.1
-        dotnet add package Microsoft.TestPlatform --version 17.11.1
+      run: dotnet add package Microsoft.TestPlatform --version 17.11.1
 
     - name: Build
       run: dotnet build --no-restore
