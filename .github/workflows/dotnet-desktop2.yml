@@ -22,8 +22,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Add Test Platform Dependency
-      run: dotnet add package Microsoft.TestPlatform.CommunicationUtilities
+    # - name: Add Test Platform Dependency
+    #   run: dotnet add package Microsoft.TestPlatform.CommunicationUtilities
 
     - name: Clean previous build artifacts
       run: dotnet clean
