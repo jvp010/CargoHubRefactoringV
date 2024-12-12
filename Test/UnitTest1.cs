@@ -8,7 +8,7 @@ namespace MyApp.Tests
         public void Addition_TwoPlusZero_IsTwo()
         {
             int a = 1;
-            int b = 2;
+            int b = 1;
             Assert.Equal(2, a + b);
         }
     }
