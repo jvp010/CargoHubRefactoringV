@@ -382,6 +382,8 @@ public class CRUDTest
         var UpdatedInventory = InventoryService.Get(1);
 
         // Then
+        Console.WriteLine($"Now: {DateTime.UtcNow}");
+        Console.WriteLine($"UpdatedAt: {UpdatedInventory.UpdatedAt}");
         Assert.True(DateTime.Parse(UpdatedInventory.UpdatedAt) > now);
         Assert.True((DateTime.UtcNow - DateTime.Parse(UpdatedInventory.UpdatedAt)).Milliseconds < 500);
     }
