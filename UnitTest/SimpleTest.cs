@@ -383,7 +383,7 @@ public class CRUDTest
 
         // Then
         Console.WriteLine($"Now: {DateTime.UtcNow}");
-        Console.WriteLine($"UpdatedAt: {UpdatedInventory.UpdatedAt}");
+        Console.WriteLine($"UpdatedAt: {DateTime.Parse(UpdatedInventory.UpdatedAt)}");
 
         Assert.True(DateTime.Parse(UpdatedInventory.UpdatedAt) > now);
         Assert.True((DateTime.UtcNow - DateTime.Parse(UpdatedInventory.UpdatedAt)).Milliseconds < 500);
