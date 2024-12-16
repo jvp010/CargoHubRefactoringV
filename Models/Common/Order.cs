@@ -1,21 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
 public class Order : BaseEntity
 {
-    public int source_id { get; set; }
-    public DateTime order_date { get; set; }
-    public DateTime request_date { get; set; }
-    public string reference { get; set; }
-    public string reference_extra { get; set; }
-    public string order_status { get; set; }
-    public string notes { get; set; }
-    public string shipping_notes { get; set; }
-    public string? picking_note { get; set; }
-    public int warehouse_id { get; set; }
-    public int? ship_to { get; set; } // ID?? CLIENT ID
-    public int? bill_to { get; set; } // ID??
-    public int? shipment_id { get; set; }
-    public decimal total_amount { get; set; }
-    public decimal total_discount { get; set; }
-    public decimal total_tax { get; set; }
-    public decimal total_surcharge { get; set; }
-    public List<OrderItem> items { get; set; }
+    [JsonPropertyName("source_id")]
+    public int SourceId { get; set; }
+
+    [JsonPropertyName("order_date")]
+    public DateTime OrderDate { get; set; }
+
+    [JsonPropertyName("request_date")]
+    public DateTime RequestDate { get; set; }
+
+    [JsonPropertyName("reference")]
+    public string Reference { get; set; }
+
+    [JsonPropertyName("reference_extra")]
+    public string ReferenceExtra { get; set; }
+
+    [JsonPropertyName("order_status")]
+    public string OrderStatus { get; set; }
+
+    [JsonPropertyName("notes")]
+    public string Notes { get; set; }
+
+    [JsonPropertyName("shipping_notes")]
+    public string ShippingNotes { get; set; }
+
+    [JsonPropertyName("picking_note")]
+    public string? PickingNote { get; set; }
+
+    [JsonPropertyName("warehouse_id")]
+    public int WarehouseId { get; set; }
+
+    [JsonPropertyName("ship_to")]
+    public int? ShipTo { get; set; } // Client ID?
+
+    [JsonPropertyName("bill_to")]
+    public int? BillTo { get; set; } // Client ID?
+
+    [JsonPropertyName("shipment_id")]
+    public int? ShipmentId { get; set; }
+
+    [JsonPropertyName("total_amount")]
+    public decimal TotalAmount { get; set; }
+
+    [JsonPropertyName("total_discount")]
+    public decimal TotalDiscount { get; set; }
+
+    [JsonPropertyName("total_tax")]
+    public decimal TotalTax { get; set; }
+
+    [JsonPropertyName("total_surcharge")]
+    public decimal TotalSurcharge { get; set; }
+
+    [JsonPropertyName("items")]
+    public List<OrderItem> Items { get; set; }
 }

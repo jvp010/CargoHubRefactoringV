@@ -1,12 +1,31 @@
+using System.Text.Json.Serialization;
+
 public class Client : BaseEntity
 {
-    public string name { get; set; }
-    public string address { get; set; }
-    public string city { get; set; }
-    public string zip_code { get; set; }
-    public string? province { get; set; }
-    public string country { get; set; }
-    public string contact_name { get; set; }
-    public string contact_phone { get; set; }
-    public string contact_email { get; set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("address")]
+    public string Address { get; set; }
+
+    [JsonPropertyName("city")]
+    public string City { get; set; }
+
+    [JsonPropertyName("zip_code")]
+    public string ZipCode { get; set; }
+
+    [JsonPropertyName("province")]
+    public string? Province { get; set; }
+
+    [JsonPropertyName("country")]
+    public string Country { get; set; }
+
+    [JsonPropertyName("contact_name")]
+    public string ContactName { get; set; }
+
+    [JsonPropertyName("contact_phone")]
+    public string ContactPhone { get; set; }
+
+    [JsonPropertyName("contact_email")]
+    public string ContactEmail { get; set; }
 }

@@ -1,19 +1,52 @@
+using System.Text.Json.Serialization;
+
 public class Shipment : BaseEntity
 {
-    //public int order_id { get; set; }
-    public int source_id { get; set; } // deze mocht weg denk ik want het wees verder nergens naar.
-    public DateOnly order_date { get; set; } //dateonly??? want ->  "order_date": "2024-05-01",  -> in python versie
-    public DateOnly request_date { get; set; } //dateonly??? ...
-    public DateOnly shipment_date { get; set; } //dateonly??? ...
-    public string shipment_type { get; set; }
-    public string shipment_status { get; set; }
-    public string notes { get; set; }
-    public string carrier_code { get; set; }
-    public string carrier_description { get; set; }
-    public string service_code { get; set; }
-    public string payment_type { get; set; }
-    public string transfer_mode { get; set; }
-    public int total_package_count { get; set; }
-    public decimal total_package_weight { get; set; }
-    public List<ShipmentItem> items { get; set; }
+    // [JsonPropertyName("order_id")] // Uncomment if you have an order_id to map.
+    // public int OrderId { get; set; }
+
+    [JsonPropertyName("source_id")]
+    public int SourceId { get; set; }
+
+    [JsonPropertyName("order_date")]
+    public DateOnly OrderDate { get; set; }
+
+    [JsonPropertyName("request_date")]
+    public DateOnly RequestDate { get; set; }
+
+    [JsonPropertyName("shipment_date")]
+    public DateOnly ShipmentDate { get; set; }
+
+    [JsonPropertyName("shipment_type")]
+    public string ShipmentType { get; set; }
+
+    [JsonPropertyName("shipment_status")]
+    public string ShipmentStatus { get; set; }
+
+    [JsonPropertyName("notes")]
+    public string Notes { get; set; }
+
+    [JsonPropertyName("carrier_code")]
+    public string CarrierCode { get; set; }
+
+    [JsonPropertyName("carrier_description")]
+    public string CarrierDescription { get; set; }
+
+    [JsonPropertyName("service_code")]
+    public string ServiceCode { get; set; }
+
+    [JsonPropertyName("payment_type")]
+    public string PaymentType { get; set; }
+
+    [JsonPropertyName("transfer_mode")]
+    public string TransferMode { get; set; }
+
+    [JsonPropertyName("total_package_count")]
+    public int TotalPackageCount { get; set; }
+
+    [JsonPropertyName("total_package_weight")]
+    public decimal TotalPackageWeight { get; set; }
+
+    [JsonPropertyName("items")]
+    public List<ShipmentItem> Items { get; set; }
 }
