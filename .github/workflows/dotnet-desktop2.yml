@@ -39,7 +39,7 @@ jobs:
       run: dotnet build $env:Solution_Name --configuration ${{ matrix.configuration }}
 
     - name: Execute unit tests
-      run: dotnet test $env:Solution_Name --configuration ${{ matrix.configuration }} --logger "console;verbosity=detailed"
+      run: dotnet test --logger "console;verbosity=detailed"
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
