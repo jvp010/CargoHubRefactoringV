@@ -385,7 +385,7 @@ public class CRUDTest
         Console.WriteLine($"Now: {now}");
         Console.WriteLine($"UpdatedAt: {DateTime.Parse(UpdatedInventory.UpdatedAt)}");
 
-        Assert.True(DateTime.Parse(UpdatedInventory.UpdatedAt) >= now);
+        Assert.True(DateTime.Parse(UpdatedInventory.UpdatedAt) == now);
         System.Console.WriteLine($"Test 2{DateTime.Parse(UpdatedInventory.UpdatedAt) >= now}");
 
         Assert.True((now - DateTime.Parse(UpdatedInventory.UpdatedAt)).Milliseconds < 500);
