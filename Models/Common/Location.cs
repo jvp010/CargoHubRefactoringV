@@ -1,16 +1,17 @@
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
 public class Location : BaseEntity
 {
-    public int warehouse_id { get; set; }
-    public string code { get; set; }
-    public string name { get; set; }
-    public ICollection<Inventory> inventories { get; set; }
+    [JsonPropertyName("warehouse_id")]
+    public int WarehouseId { get; set; }
+
+    [JsonPropertyName("code")]
+    public string Code { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("inventories")]
+    public ICollection<Inventory> Inventories { get; set; }
 }
-
-// public class Location : BaseEntity
-// {
-//     public int warehouse_id { get; set; }
-//     public string code { get; set; }
-//     public string name { get; set; }
-
-
-// }

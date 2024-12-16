@@ -16,7 +16,7 @@ jobs:
 
     env:
       Solution_Name: CargoHubTeam2.sln
-      TestProject: ./Test/Test.csproj
+      TestProject: ./UnitTest/Test.csproj
 
     steps:
     - name: Checkout

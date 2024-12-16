@@ -1,19 +1,17 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-public class OrderItem 
+public class OrderItem
 {
     [Key]
-    public int id {get;set;}
+    public int Id { get; set; }  // Primary Key
 
-    [JsonPropertyName("item_id")]  // Ensures the JSON property name maps correctly to C# property
-    public string order_item_id { get; set; }
-    public int amount { get; set; }
+    [JsonPropertyName("item_id")]  // Maps JSON field name `item_id` to the C# property
+    public string OrderItemId { get; set; }
+
+    [JsonPropertyName("amount")]  // Maps JSON field name `amount` to the C# property
+    public int Amount { get; set; }
+
+    [JsonPropertyName("order_id")]  // Maps JSON field name `order_id` to the C# property
     public int OrderId { get; set; }
-
-
-
 }
-
-// BaseEntity includes create and update at while the ERD model doesnt. include or not?
-// Stem voor nee - valdier

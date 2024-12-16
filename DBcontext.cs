@@ -24,7 +24,7 @@ public class ModelContext : DbContext
 
     public DbSet<ItemType> ItemTypes { get; set; }
 
-    public DbSet<Inventory> Inventorys { get; set; }
+    public DbSet<Inventory> Inventories { get; set; }
 
     public DbSet<Client> Clients { get; set; }
 
@@ -37,71 +37,71 @@ public class ModelContext : DbContext
     {
         // ITEM // succes
         modelBuilder.Entity<Item>()
-            .HasKey(i => i.uid);
+            .HasKey(i => i.Uid);
 
         modelBuilder.Entity<Item>()
-            .Property(i => i.uid)
+            .Property(i => i.Uid)
             .IsRequired();
 
         modelBuilder.Entity<Item>()
             .HasOne<ItemLine>()
             .WithMany()
-            .HasForeignKey(i => i.item_line)
+            .HasForeignKey(i => i.ItemLine)
             .IsRequired(false);
 
         modelBuilder.Entity<Item>()
             .HasOne<ItemType>()
             .WithMany()
-            .HasForeignKey(i => i.item_type)
+            .HasForeignKey(i => i.ItemType)
             .IsRequired(false);
 
         modelBuilder.Entity<Item>()
             .HasOne<ItemGroup>()
             .WithMany()
-            .HasForeignKey(i => i.item_group)
+            .HasForeignKey(i => i.ItemGroup)
             .IsRequired(false);
 
         modelBuilder.Entity<Item>()
             .HasOne<Supplier>()
             .WithMany()
-            .HasForeignKey(i => i.supplier_id);
+            .HasForeignKey(i => i.SupplierId);
 
         // Inventory // succes
         modelBuilder.Entity<Inventory>()
-            .HasKey(i => i.id);
+            .HasKey(i => i.Id);
 
         modelBuilder.Entity<Inventory>()
-            .Property(i => i.id)
+            .Property(i => i.Id)
             .IsRequired();
 
         modelBuilder.Entity<Inventory>()
             .HasOne<Item>()
             .WithOne()
-            .HasForeignKey<Inventory>(i => i.item_id);
+            .HasForeignKey<Inventory>(i => i.ItemId);
 
 
         // Location // succes
         modelBuilder.Entity<Location>()
-            .HasKey(i => i.id);
+            .HasKey(i => i.Id);
 
         modelBuilder.Entity<Location>()
-            .Property(i => i.id)
+            .Property(i => i.Id)
             .IsRequired();
 
 
 
         //OrdeR
         modelBuilder.Entity<Order>()
-            .HasKey(i => i.id);
+            .HasKey(i => i.Id);
 
         modelBuilder.Entity<Order>()
-            .Property(i => i.id)
+            .Property(i => i.Id)
             .IsRequired();
 
         modelBuilder.Entity<Order>()
             .HasOne<Warehouse>()
             .WithMany()
-            .HasForeignKey(i => i.warehouse_id);
+            .HasForeignKey(i => i.WarehouseId);
 
         // modelBuilder.Entity<Order>()
         //     .HasOne<Client>()
@@ -118,23 +118,23 @@ public class ModelContext : DbContext
         modelBuilder.Entity<Order>()
             .HasOne<Shipment>()
             .WithOne()
-            .HasForeignKey<Order>(i => i.shipment_id);
+            .HasForeignKey<Order>(i => i.ShipmentId);
 
         modelBuilder.Entity<Order>(order =>
         {
-            order.OwnsMany(o => o.items, item =>
+            order.OwnsMany(o => o.Items, item =>
             {
-                item.Property(i => i.order_item_id).HasColumnName("item_id");
-                item.Property(i => i.amount).HasColumnName("amount");
+                item.Property(i => i.OrderItemId).HasColumnName("item_id");
+                item.Property(i => i.Amount).HasColumnName("amount");
             });
         });
 
         // shipment
         modelBuilder.Entity<Shipment>()
-            .HasKey(i => i.id);
+            .HasKey(i => i.Id);
 
         modelBuilder.Entity<Shipment>()
-            .Property(i => i.id)
+            .Property(i => i.Id)
             .IsRequired();
 
         // modelBuilder.Entity<Shipment>()    => removed to prevent circular fk restraint
@@ -144,7 +144,7 @@ public class ModelContext : DbContext
 
         modelBuilder.Entity<Shipment>(shipment =>
         {
-            shipment.OwnsMany(s => s.items, item =>
+            shipment.OwnsMany(s => s.Items, item =>
             {
                 item.Property(i => i.shipment_item_id).HasColumnName("item_id");
                 item.Property(i => i.amount).HasColumnName("amount");
@@ -153,30 +153,30 @@ public class ModelContext : DbContext
 
         // suppleir
         modelBuilder.Entity<Supplier>()
-            .HasKey(i => i.id);
+            .HasKey(i => i.Id);
 
         modelBuilder.Entity<Supplier>()
-            .Property(i => i.id)
+            .Property(i => i.Id)
             .IsRequired();
 
         // //transfer
         modelBuilder.Entity<Transfer>()
-            .HasKey(i => i.id);
+            .HasKey(i => i.Id);
 
         modelBuilder.Entity<Transfer>()
-            .Property(i => i.id)
+            .Property(i => i.Id)
             .IsRequired();
 
         modelBuilder.Entity<Transfer>()
             .HasOne<Location>()
             .WithMany()
-            .HasForeignKey(i => i.transfer_from)
+            .HasForeignKey(i => i.TransferFrom)
             .IsRequired(false);
 
         modelBuilder.Entity<Transfer>()
             .HasOne<Location>()
             .WithMany()
-            .HasForeignKey(i => i.transfer_to)
+            .HasForeignKey(i => i.TransferTo)
             .IsRequired(false);
 
         modelBuilder.Entity<Transfer>(transfer =>
@@ -184,7 +184,7 @@ public class ModelContext : DbContext
             // is eigenlijk ``OwnsOne`` omdat in de data file elke tranfer maar 1 transfer item opslaat, 
             // maar omdat het wordt opgeslagen in een list moet het OwnsMany zijn. Is niet net als bij 
             // warehouse wnt daar word contact wel gwn opgeslagen ipv in een list.
-            transfer.OwnsMany(t => t.items, item => 
+            transfer.OwnsMany(t => t.Items, item => 
             {
                 item.Property(i => i.tranfer_item_id).HasColumnName("item_id");
                 item.Property(i => i.amount).HasColumnName("amount");
@@ -193,19 +193,19 @@ public class ModelContext : DbContext
 
         //warehouse 
         modelBuilder.Entity<Warehouse>()
-            .HasKey(i => i.id);
+            .HasKey(i => i.Id);
 
         modelBuilder.Entity<Warehouse>()
-            .Property(i => i.id)
+            .Property(i => i.Id)
             .IsRequired();
 
         modelBuilder.Entity<Warehouse>(warehouse =>
         {
-            warehouse.OwnsOne(w => w.contact, contact =>
+            warehouse.OwnsOne(w => w.Contact, contact =>
             {
-                contact.Property(i => i.name).HasColumnName("contact_name");
-                contact.Property(i => i.phone).HasColumnName("contact_phone");
-                contact.Property(i => i.email).HasColumnName("contact_email");
+                contact.Property(i => i.Name).HasColumnName("contact_name");
+                contact.Property(i => i.Phone).HasColumnName("contact_phone");
+                contact.Property(i => i.Email).HasColumnName("contact_email");
             });
         });
 

@@ -1,14 +1,37 @@
+using System.Text.Json.Serialization;
+
 public class Supplier : BaseEntity
 {
-    public string code { get; set; }
-    public string name { get; set; }
-    public string address { get; set; }
-    public string address_extra { get; set; }
-    public string city { get; set; }
-    public string zip_code { get; set; }
-    public string province { get; set; }
-    public string country { get; set; }
-    public string contact_name { get; set; }
-    public string phonenumber { get; set; }
-    public string reference { get; set; }
+    [JsonPropertyName("code")]
+    public string Code { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("address")]
+    public string Address { get; set; }
+
+    [JsonPropertyName("address_extra")]
+    public string AddressExtra { get; set; }
+
+    [JsonPropertyName("city")]
+    public string City { get; set; }
+
+    [JsonPropertyName("zip_code")]
+    public string ZipCode { get; set; }
+
+    [JsonPropertyName("province")]
+    public string Province { get; set; }
+
+    [JsonPropertyName("country")]
+    public string Country { get; set; }
+
+    [JsonPropertyName("contact_name")]
+    public string ContactName { get; set; }
+
+    [JsonPropertyName("phonenumber")]
+    public string PhoneNumber { get; set; }
+
+    [JsonPropertyName("reference")]
+    public string Reference { get; set; }
 }

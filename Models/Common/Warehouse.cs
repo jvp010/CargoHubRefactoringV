@@ -1,14 +1,28 @@
-using System.Runtime.InteropServices;
+using System.Text.Json.Serialization;
 
 public class Warehouse : BaseEntity
 {
-    public string code { get; set; }
-    public string name { get; set; }
-    public string address { get; set; }
-    public string zip { get; set; }
-    public string city { get; set; }
-    public string province { get; set; }
-    public string country { get; set; }
-    public Contact contact { get; set; } // todo
-}
+    [JsonPropertyName("code")]
+    public string Code { get; set; }
 
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("address")]
+    public string Address { get; set; }
+
+    [JsonPropertyName("zip")]
+    public string Zip { get; set; }
+
+    [JsonPropertyName("city")]
+    public string City { get; set; }
+
+    [JsonPropertyName("province")]
+    public string Province { get; set; }
+
+    [JsonPropertyName("country")]
+    public string Country { get; set; }
+
+    [JsonPropertyName("contact")]
+    public Contact Contact { get; set; } 
+}

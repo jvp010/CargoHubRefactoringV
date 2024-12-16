@@ -25,197 +25,182 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using (var scope = app.Services.CreateScope())
 {
-    Console.WriteLine("enter in yes to load the jsons");
+    Console.WriteLine("Enter 'yes' to load the JSONs.");
     string answer = Console.ReadLine();
 
-    if (answer == "yes")
+    if (answer?.ToLower() == "yes")
     {
         var context = scope.ServiceProvider.GetRequiredService<ModelContext>();
 
-        string jsonClient = File.ReadAllText("data/clients.json");
-        List<Client> clients = JsonSerializer.Deserialize<List<Client>>(jsonClient);
-        context.Clients.AddRange(clients); // succes
+        // Load Client Data
+        string jsonClients = File.ReadAllText("data/clients.json");
+        List<Client> clients = JsonSerializer.Deserialize<List<Client>>(jsonClients);
+        context.Clients.AddRange(clients);
 
-        // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        string jsonItemLines= File.ReadAllText("data/item_lines.json");                                           
-        List<ItemLine> ItemLines = JsonSerializer.Deserialize<List<ItemLine>>(jsonItemLines);
-        List<ItemLine> newItemLines = [];
-        foreach (var item in ItemLines)
+        // Load Item Lines
+        string jsonItemLines = File.ReadAllText("data/item_lines.json");
+        List<ItemLine> itemLines = JsonSerializer.Deserialize<List<ItemLine>>(jsonItemLines);
+        List<ItemLine> newItemLines = new();
+        foreach (var itemLine in itemLines)
         {
-            newItemLines.Add(new ItemLine{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
-        } 
+            newItemLines.Add(new ItemLine
+            {
+                Id = 0,
+                Name = itemLine.Name,
+                Description = itemLine.Description,
+                CreatedAt = itemLine.CreatedAt,
+                UpdatedAt = itemLine.UpdatedAt
+            });
+        }
         context.ItemLines.AddRange(newItemLines);
 
-        string jsonItemGroups= File.ReadAllText("data/item_groups.json");                                           
-        List<ItemGroup> ItemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);    
-        List<ItemGroup> newItemGroup = [];
-        foreach (var item in ItemGroups)
+        // Load Item Groups
+        string jsonItemGroups = File.ReadAllText("data/item_groups.json");
+        List<ItemGroup> itemGroups = JsonSerializer.Deserialize<List<ItemGroup>>(jsonItemGroups);
+        List<ItemGroup> newItemGroups = new();
+        foreach (var itemGroup in itemGroups)
         {
-            newItemGroup.Add(new ItemGroup{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
-        } 
-        context.ItemGroups.AddRange(newItemGroup);
-
-        string jsonItemTypes= File.ReadAllText("data/item_types.json");                                           
-        List<ItemType> ItemTypes = JsonSerializer.Deserialize<List<ItemType>>(jsonItemTypes);    
-        List<ItemType> newItemType = [];
-        foreach (var item in ItemTypes)
-        {
-            newItemType.Add(new ItemType{id = 0, name = item.name , description = item.description , created_at = item.created_at , updated_at = item.updated_at});
-        } 
-        context.ItemTypes.AddRange(newItemType);  
-
-
-        string jsonSuppliers = File.ReadAllText("data/suppliers.json");
-        List<Supplier> Suppliers = JsonSerializer.Deserialize<List<Supplier>>(jsonSuppliers);
-        context.Suppliers.AddRange(Suppliers);
-
-
-        context.SaveChanges();    // succes
-        // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        string jsonItem = File.ReadAllText("data/items.json");
-        List<Item> items = JsonSerializer.Deserialize<List<Item>>(jsonItem);
-        context.Items.AddRange(items); // succes
-        context.SaveChanges();    // succes
-
-
-
-        string jsonWarehouse = File.ReadAllText("data/warehouses.json");
-        List<Warehouse> Warehouses = JsonSerializer.Deserialize<List<Warehouse>>(jsonWarehouse);
-        context.Warehouses.AddRange(Warehouses); // succes
-        context.SaveChanges();
-
-
-        string jsonLocation = File.ReadAllText("data/locations.json");
-        List<Location> locations = JsonSerializer.Deserialize<List<Location>>(jsonLocation);
-        context.Locations.AddRange(locations); // succes
-
-        context.SaveChanges();
-
-
-        string jsonInventory = File.ReadAllText("data/inventories.json");
-        List<InventoryTemplate> InventoriesTemplate = JsonSerializer.Deserialize<List<InventoryTemplate>>(jsonInventory);
-        List<Inventory> inventories = [];
-        foreach (var inventory in InventoriesTemplate)
-        {
-            List<int> ids = inventory.locations;
-            List<Location> locationsholder = [];
-
-            foreach (var id in ids)
+            newItemGroups.Add(new ItemGroup
             {
-                locationsholder.Add(context.Locations.Find(id));
-            }
-            Inventory NewInventory = new Inventory
-            {
-                item_id = inventory.item_id,
-                description = inventory.description,
-                item_reference = inventory.item_reference,
-                total_on_hand = inventory.total_on_hand,
-                total_expected = inventory.total_expected,
-                total_ordered = inventory.total_ordered,
-                total_allocated = inventory.total_allocated,
-                total_available = inventory.total_available,
-                locations = locationsholder
-
-            };
-            inventories.Add(NewInventory);
-        }
-
-
-
-        context.Inventorys.AddRange(inventories); // success
-        context.SaveChanges();
-
-
-
-        string jsonShipment = File.ReadAllText("data/shipments.json");
-
-        List<Shipment> Shipments = JsonSerializer.Deserialize<List<Shipment>>(jsonShipment);
-        context.Shipments.AddRange(Shipments);
-        context.SaveChanges();
-
-
-
-
-
-        string jsonOrder = File.ReadAllText("data/orders.json");
-        List<Order> Orders = JsonSerializer.Deserialize<List<Order>>(jsonOrder);
-        List<Order> newOrders = new List<Order>();
-        foreach (var item in Orders)  // Loop through the original Orders list, not newOrders
-        {
-            newOrders.Add(new Order
-            {
-                id = 0,               // Set ID as 0
-                bill_to = item.bill_to,  // Set bill_to from each item in Orders
-                source_id = item.source_id,
-                order_date = item.order_date,
-                request_date = item.request_date,
-                reference = item.reference,
-                reference_extra = item.reference_extra,
-                order_status = item.order_status,
-                notes = item.notes,
-                shipping_notes = item.shipping_notes,
-                picking_note = item.picking_note,
-                warehouse_id = item.warehouse_id,
-                ship_to = item.ship_to,
-                shipment_id = item.shipment_id,
-                total_amount = item.total_amount,
-                total_discount = item.total_discount,
-                total_tax = item.total_tax,
-                total_surcharge = item.total_surcharge,
-                items = new List<OrderItem>(item.items)  // Ensure items list is copied correctly
+                Id = 0,
+                Name = itemGroup.Name,
+                Description = itemGroup.Description,
+                CreatedAt = itemGroup.CreatedAt,
+                UpdatedAt = itemGroup.UpdatedAt
             });
-            
         }
-        context.Orders.AddRange(newOrders.Take(6858)); //success
+        context.ItemGroups.AddRange(newItemGroups);
+
+        // Load Item Types
+        string jsonItemTypes = File.ReadAllText("data/item_types.json");
+        List<ItemType> itemTypes = JsonSerializer.Deserialize<List<ItemType>>(jsonItemTypes);
+        List<ItemType> newItemTypes = new();
+        foreach (var itemType in itemTypes)
+        {
+            newItemTypes.Add(new ItemType
+            {
+                Id = 0,
+                Name = itemType.Name,
+                Description = itemType.Description,
+                CreatedAt = itemType.CreatedAt,
+                UpdatedAt = itemType.UpdatedAt
+            });
+        }
+        context.ItemTypes.AddRange(newItemTypes);
+
+        // Load Suppliers
+        string jsonSuppliers = File.ReadAllText("data/suppliers.json");
+        List<Supplier> suppliers = JsonSerializer.Deserialize<List<Supplier>>(jsonSuppliers);
+        context.Suppliers.AddRange(suppliers);
 
         context.SaveChanges();
 
-
-
-
-        string jsonTransfer = File.ReadAllText("data/transfers.json");
-        List<Transfer> Transfers = JsonSerializer.Deserialize<List<Transfer>>(jsonTransfer);
-        context.Transfers.AddRange(Transfers); // succes
-
+        // Load Items
+        string jsonItems = File.ReadAllText("data/items.json");
+        List<Item> items = JsonSerializer.Deserialize<List<Item>>(jsonItems);
+        context.Items.AddRange(items);
         context.SaveChanges();
 
+        // Load Warehouses
+        string jsonWarehouses = File.ReadAllText("data/warehouses.json");
+        List<Warehouse> warehouses = JsonSerializer.Deserialize<List<Warehouse>>(jsonWarehouses);
+        context.Warehouses.AddRange(warehouses);
+        context.SaveChanges();
 
+        // Load Locations
+        string jsonLocations = File.ReadAllText("data/locations.json");
+        List<Location> locations = JsonSerializer.Deserialize<List<Location>>(jsonLocations);
+        context.Locations.AddRange(locations);
+        context.SaveChanges();
+
+        // Load Inventory Templates and Map to Inventory
+        string jsonInventoryTemplates = File.ReadAllText("data/inventories.json");
+        List<InventoryTemplate> inventoryTemplates = JsonSerializer.Deserialize<List<InventoryTemplate>>(jsonInventoryTemplates);
+        List<Inventory> inventories = new();
+        foreach (var inventoryTemplate in inventoryTemplates)
+        {
+            List<int> locationIds = inventoryTemplate.Locations;
+            List<Location> matchedLocations = new();
+
+            foreach (var id in locationIds)
+            {
+                var location = context.Locations.Find(id);
+                if (location != null)
+                    matchedLocations.Add(location);
+            }
+
+            Inventory inventory = new()
+            {
+                ItemId = inventoryTemplate.ItemId,
+                Description = inventoryTemplate.Description,
+                ItemReference = inventoryTemplate.ItemReference,
+                TotalOnHand = inventoryTemplate.TotalOnHand,
+                TotalExpected = inventoryTemplate.TotalExpected,
+                TotalOrdered = inventoryTemplate.TotalOrdered,
+                TotalAllocated = inventoryTemplate.TotalAllocated,
+                TotalAvailable = inventoryTemplate.TotalAvailable,
+                Locations = matchedLocations
+            };
+
+            inventories.Add(inventory);
+        }
+
+        context.Inventories.AddRange(inventories);
+        context.SaveChanges();
+
+        // Load Shipments
+        string jsonShipments = File.ReadAllText("data/shipments.json");
+        List<Shipment> shipments = JsonSerializer.Deserialize<List<Shipment>>(jsonShipments);
+        context.Shipments.AddRange(shipments);
+        context.SaveChanges();
+
+        // Load Orders with Adjusted Values
+        string jsonOrders = File.ReadAllText("data/orders.json");
+        List<Order> orders = JsonSerializer.Deserialize<List<Order>>(jsonOrders);
+        List<Order> mappedOrders = new();
+        foreach (var order in orders)
+        {
+            mappedOrders.Add(new Order
+            {
+                Id = 0,
+                BillTo = order.BillTo,
+                SourceId = order.SourceId,
+                OrderDate = order.OrderDate,
+                RequestDate = order.RequestDate,
+                Reference = order.Reference,
+                ReferenceExtra = order.ReferenceExtra,
+                OrderStatus = order.OrderStatus,
+                Notes = order.Notes,
+                ShippingNotes = order.ShippingNotes,
+                PickingNote = order.PickingNote,
+                WarehouseId = order.WarehouseId,
+                ShipTo = order.ShipTo,
+                ShipmentId = order.ShipmentId,
+                TotalAmount = order.TotalAmount,
+                TotalDiscount = order.TotalDiscount,
+                TotalTax = order.TotalTax,
+                TotalSurcharge = order.TotalSurcharge,
+                Items = new List<OrderItem>(order.Items)
+            });
+        }
+
+        context.Orders.AddRange(mappedOrders.Take(6858));
+        context.SaveChanges();
+
+        // Load Transfers
+        string jsonTransfers = File.ReadAllText("data/transfers.json");
+        List<Transfer> transfers = JsonSerializer.Deserialize<List<Transfer>>(jsonTransfers);
+        context.Transfers.AddRange(transfers);
+        context.SaveChanges();
     }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.Run();
 
 
 
-// using (var scope = app.Services.CreateScope())
-// {
-//     var services = scope.ServiceProvider;
-//     var dbContext = services.GetRequiredService<ModelContext>();
-//     string json = @"
-//         {
-//             ""Name"": ""John Doe"",
-//             ""Courses"": [
-//                 { ""Title"": ""fuckwad"" },
-//                 { ""Title"": ""asd"" }
-//             ]
-//         }";
 
-//     // Deserialize JSON into Student object
-//     var studentFromJson = JsonSerializer.Deserialize<Student>(json);
-//     dbContext.Students.AddRange(studentFromJson);
-
-//     dbContext.SaveChanges();
-//     Student student = dbContext.Students
-//     .Include(s => s.Courses) // Eager load the Courses for the Student
-//     .FirstOrDefault(s => s.Id == 7); // Use FirstOrDefault to get the student by id
-//     foreach (var item in student.Courses)
-//     {
-//         System.Console.WriteLine(item.Title);
-//     }
 
