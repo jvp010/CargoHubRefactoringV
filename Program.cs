@@ -8,7 +8,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/////////////////////////////////////////////////////
+
+
+builder.Services.AddControllers();
+builder.Services.AddAuthentication();
+//PersonContext added as a scoped (default of method AddDbContext) service:
+
+// super super experimental this is probobaly super wrong but oh well its this or making the same methods over and over and over AAAA
+builder.Services.AddTransient<ICRUDinterface<Client>, CrudService<Client>>();
+builder.Services.AddTransient<ICRUDinterface<Inventory>, CrudService<Inventory>>();
+builder.Services.AddTransient<ICRUDinterface<ItemGroup>, CrudService<ItemGroup>>();
+builder.Services.AddTransient<ICRUDinterface<ItemLine>, CrudService<ItemLine>>();
+builder.Services.AddTransient<ICRUDinterface<ItemType>, CrudService<ItemType>>();
+builder.Services.AddTransient<ICRUDinterface<Location>, CrudService<Location>>();
+builder.Services.AddTransient<ICRUDinterface<Order>, CrudService<Order>>();
+builder.Services.AddTransient<ICRUDinterface<Shipment>, CrudService<Shipment>>();
+builder.Services.AddTransient<ICRUDinterface<Supplier>, CrudService<Supplier>>();
+builder.Services.AddTransient<ICRUDinterface<Transfer>, CrudService<Transfer>>();
+builder.Services.AddTransient<ICRUDinterface<Warehouse>, CrudService<Warehouse>>();
+
 builder.Services.AddDbContext<ModelContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"))
                        .EnableSensitiveDataLogging());  // Enable detailed logging
@@ -24,6 +42,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 
 
 using (var scope = app.Services.CreateScope())
