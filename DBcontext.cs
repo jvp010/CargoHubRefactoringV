@@ -184,7 +184,7 @@ public class ModelContext : DbContext
             // is eigenlijk ``OwnsOne`` omdat in de data file elke tranfer maar 1 transfer item opslaat, 
             // maar omdat het wordt opgeslagen in een list moet het OwnsMany zijn. Is niet net als bij 
             // warehouse wnt daar word contact wel gwn opgeslagen ipv in een list.
-            transfer.OwnsMany(t => t.Items, item => 
+            transfer.OwnsMany(t => t.Items, item =>
             {
                 item.Property(i => i.tranfer_item_id).HasColumnName("item_id");
                 item.Property(i => i.amount).HasColumnName("amount");
@@ -208,6 +208,10 @@ public class ModelContext : DbContext
                 contact.Property(i => i.Email).HasColumnName("contact_email");
             });
         });
+
+        modelBuilder.Entity<Client>()
+        .Property(c => c.Id)
+        .ValueGeneratedOnAdd(); 
 
     }
 }

@@ -34,31 +34,24 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         return false;
     }
 
-   public T Get(int id)
-{
-    T entity = SearchObject<T>.Check(default, _context, id);
-
-    if (entity == null)
+    public T Get(int id)
     {
-        entity = _context.Set<T>().FirstOrDefault(e => e.Id == id);
-    }
+        T entity = SearchObject<T>.Check(default, _context, id);
 
-    return entity;
-}
-
-
-    public List<T> GetAll()
-    {
-        IQueryable<T> query = _context.Set<T>().AsQueryable();
-
-        // Eager loading for specific types
-        if (typeof(T) == typeof(Order) || typeof(T) == typeof(Shipment) || typeof(T) == typeof(Transfer))
+        if (entity == null)
         {
-            query = query.Include("Items");
+            entity = _context.Set<T>().FirstOrDefault(e => e.Id == id);
         }
 
-        return query.ToList();
+        return entity;
     }
+
+
+    public  List<T> GetAll()
+{
+    return  _context.Set<T>().ToList();
+}
+
 
     public async Task Patch(T target)
     {
@@ -70,6 +63,8 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
     {
         if (target != null)
         {
+            target.CreatedAt = DateTime.UtcNow.ToString();
+            target.UpdatedAt = DateTime.UtcNow.ToString();
             _context.Set<T>().Add(target);
             _context.SaveChanges();
             return target;

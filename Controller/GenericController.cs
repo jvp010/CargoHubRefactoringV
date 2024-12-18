@@ -20,8 +20,6 @@ using System.Collections.Generic;
         public async Task<IActionResult> GetbyId(int id)
         {
             T holder = _CRUDinterface.Get(id);
-            Console.WriteLine("here the Controller is !!!");
-            Console.WriteLine(holder);
             if(holder != null) return Ok(holder);
             return NotFound();
         }
@@ -30,7 +28,7 @@ using System.Collections.Generic;
         public async Task<IActionResult> GetAll()
         {
            
-            List<T> holder =_CRUDinterface.GetAll();
+            List<T> holder =  _CRUDinterface.GetAll();
             return Ok(holder);
         }
         [HttpPost("Post")]
