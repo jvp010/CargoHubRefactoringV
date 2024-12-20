@@ -47,10 +47,14 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
     }
 
 
-    public  List<T> GetAll()
-{
-    return  _context.Set<T>().ToList();
-}
+    public List<T> GetAll()
+    {
+        return _context.Set<T>()
+            .OrderBy(x => x.Id)
+            .ToList();
+    }
+
+
 
 
     public async Task Patch(T target)
@@ -61,22 +65,28 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
 
     public T Post(T target)
     {
-        if (target != null)
+
+        if (target.CreatedAt == "" & target.UpdatedAt == "")
         {
-            target.CreatedAt = DateTime.UtcNow.ToString();
-            target.UpdatedAt = DateTime.UtcNow.ToString();
-            _context.Set<T>().Add(target);
-            _context.SaveChanges();
-            return target;
+            string time = DateTime.UtcNow.ToString();
+            target.CreatedAt = time;
+            target.UpdatedAt = time;
         }
-        return null;
+
+        if (CheckIfTimeIsCorrect(target) == false) return null!;
+        if (target.Id == 0 & _context.Set<T>().ToList().Count != 0)
+        {
+            target.Id = _context.Set<T>().OrderBy(x => x.Id).ToList().Last().Id + 1 // autogenereted id when using a large DB
+;
+        }
+        _context.Set<T>().Add(target);
+        _context.SaveChanges();
+
+        return target;
+
     }
 
 
-    // bool ICRUDinterface<T>.Patch(T target)
-    // {
-    //     throw new NotImplementedException();
-    // }
 
     public bool Put(T target)
     {
@@ -89,5 +99,18 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
 
         _context.SaveChanges();
         return true;
+    }
+
+
+    private bool CheckIfTimeIsCorrect(T target)
+    {
+
+        bool CheckCreatedAt = DateTime.TryParse(target.CreatedAt, out DateTime parsedDate);
+        bool CheckUpdatedAt = DateTime.TryParse(target.UpdatedAt, out DateTime parsedDate2);
+
+        if (CheckCreatedAt == true & CheckUpdatedAt == true) return true;
+        return false;
+
+
     }
 }
