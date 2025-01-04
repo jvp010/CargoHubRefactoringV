@@ -76,8 +76,8 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         if (CheckIfTimeIsCorrect(target) == false) return null!;
         if (target.Id == 0 & _context.Set<T>().ToList().Count != 0)
         {
-            target.Id = _context.Set<T>().OrderBy(x => x.Id).ToList().Last().Id + 1 // autogenereted id when using a large DB
-;
+            target.Id = _context.Set<T>().OrderBy(x => x.Id).ToList().Last().Id + 1; // autogenereted id when using a large DB
+
         }
         _context.Set<T>().Add(target);
         _context.SaveChanges();
@@ -85,14 +85,18 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         return target;
 
     }
+    
 
 
 
     public bool Put(T target)
     {
-        if (target == null) return false;
+        T Old = this.Get(target.Id);
+        if (target == null || ( Old == null))  return false;
 
         _context.ChangeTracker.Clear();
+        target.CreatedAt = Old.CreatedAt;
+        target.UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
         _context.Set<T>().Attach(target);
         _context.Entry(target).State = EntityState.Modified;

@@ -37,13 +37,22 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
         if (_CRUDinterface.Post(Client) != null) return Ok(Client);
         return BadRequest("Time format for created at/updated is wrong"); 
         }
-    [HttpDelete("delete")]
+    [HttpDelete("Delete")]
     public async Task<IActionResult> Delete([FromQuery] int id)
     {
         bool check = _CRUDinterface.Delete(id);
         if (check) return Ok("id " + id + " has been deleted");
         return BadRequest($"id: {id} not found to be deleted");
     }
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update([FromBody] T Client)
+    {
+        bool check = _CRUDinterface.Put(Client);
+        if(check) return Ok(Client);
+        return BadRequest($"id: {Client.Id} not found so can not be modified");
+
+    }
+
 
 
 
