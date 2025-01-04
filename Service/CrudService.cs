@@ -34,31 +34,28 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         return false;
     }
 
-   public T Get(int id)
-{
-    T entity = SearchObject<T>.Check(default, _context, id);
-
-    if (entity == null)
+    public T Get(int id)
     {
-        entity = _context.Set<T>().FirstOrDefault(e => e.Id == id);
-    }
+        T entity = SearchObject<T>.Check(default, _context, id);
 
-    return entity;
-}
+        if (entity == null)
+        {
+            entity = _context.Set<T>().FirstOrDefault(e => e.Id == id);
+        }
+
+        return entity;
+    }
 
 
     public List<T> GetAll()
     {
-        IQueryable<T> query = _context.Set<T>().AsQueryable();
-
-        // Eager loading for specific types
-        if (typeof(T) == typeof(Order) || typeof(T) == typeof(Shipment) || typeof(T) == typeof(Transfer))
-        {
-            query = query.Include("Items");
-        }
-
-        return query.ToList();
+        return _context.Set<T>()
+            .OrderBy(x => x.Id)
+            .ToList();
     }
+
+
+
 
     public async Task Patch(T target)
     {
@@ -68,20 +65,28 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
 
     public T Post(T target)
     {
-        if (target != null)
+
+        if (target.CreatedAt == "" & target.UpdatedAt == "")
         {
-            _context.Set<T>().Add(target);
-            _context.SaveChanges();
-            return target;
+            string time = DateTime.UtcNow.ToString();
+            target.CreatedAt = time;
+            target.UpdatedAt = time;
         }
-        return null;
+
+        if (CheckIfTimeIsCorrect(target) == false) return null!;
+        if (target.Id == 0 & _context.Set<T>().ToList().Count != 0)
+        {
+            target.Id = _context.Set<T>().OrderBy(x => x.Id).ToList().Last().Id + 1 // autogenereted id when using a large DB
+;
+        }
+        _context.Set<T>().Add(target);
+        _context.SaveChanges();
+
+        return target;
+
     }
 
 
-    // bool ICRUDinterface<T>.Patch(T target)
-    // {
-    //     throw new NotImplementedException();
-    // }
 
     public bool Put(T target)
     {
@@ -94,5 +99,18 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
 
         _context.SaveChanges();
         return true;
+    }
+
+
+    private bool CheckIfTimeIsCorrect(T target)
+    {
+
+        bool CheckCreatedAt = DateTime.TryParse(target.CreatedAt, out DateTime parsedDate);
+        bool CheckUpdatedAt = DateTime.TryParse(target.UpdatedAt, out DateTime parsedDate2);
+
+        if (CheckCreatedAt == true & CheckUpdatedAt == true) return true;
+        return false;
+
+
     }
 }
