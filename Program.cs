@@ -14,7 +14,6 @@ builder.Services.AddControllers();
 builder.Services.AddAuthentication();
 //PersonContext added as a scoped (default of method AddDbContext) service:
 
-// super super experimental this is probobaly super wrong but oh well its this or making the same methods over and over and over AAAA
 builder.Services.AddTransient<ICRUDinterface<Client>, CrudService<Client>>();
 builder.Services.AddTransient<ICRUDinterface<Inventory>, CrudService<Inventory>>();
 builder.Services.AddTransient<ICRUDinterface<ItemGroup>, CrudService<ItemGroup>>();

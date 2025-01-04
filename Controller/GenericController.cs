@@ -21,7 +21,7 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
     {
         T holder = _CRUDinterface.Get(id);
         if (holder != null) return Ok(holder);
-        return NotFound();
+        return NotFound($"id {id} has not been found");
     }
 
     [HttpGet]
