@@ -74,10 +74,10 @@ public class ModelContext : DbContext
             .Property(i => i.Id)
             .IsRequired();
 
-        modelBuilder.Entity<Inventory>()
-            .HasOne<Item>()
-            .WithOne()
-            .HasForeignKey<Inventory>(i => i.ItemId);
+        // modelBuilder.Entity<Inventory>()
+        //     .HasOne<Item>()
+        //     .WithOne()
+        //     .HasForeignKey<Inventory>(i => i.ItemId);
 
 
         // Location // succes

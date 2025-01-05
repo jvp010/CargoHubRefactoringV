@@ -15,7 +15,7 @@ builder.Services.AddAuthentication();
 //PersonContext added as a scoped (default of method AddDbContext) service:
 
 builder.Services.AddTransient<ICRUDinterface<Client>, CrudService<Client>>();
-builder.Services.AddTransient<ICRUDinterface<Inventory>, CrudService<Inventory>>();
+builder.Services.AddTransient<InventoryService>();
 builder.Services.AddTransient<ICRUDinterface<ItemGroup>, CrudService<ItemGroup>>();
 builder.Services.AddTransient<ICRUDinterface<ItemLine>, CrudService<ItemLine>>();
 builder.Services.AddTransient<ICRUDinterface<ItemType>, CrudService<ItemType>>();
@@ -136,36 +136,7 @@ using (var scope = app.Services.CreateScope())
 
         // Load Inventory Templates and Map to Inventory
         string jsonInventoryTemplates = File.ReadAllText("data/inventories.json");
-        List<InventoryTemplate> inventoryTemplates = JsonSerializer.Deserialize<List<InventoryTemplate>>(jsonInventoryTemplates);
-        List<Inventory> inventories = new();
-        foreach (var inventoryTemplate in inventoryTemplates)
-        {
-            List<int> locationIds = inventoryTemplate.Locations;
-            List<Location> matchedLocations = new();
-
-            foreach (var id in locationIds)
-            {
-                var location = context.Locations.Find(id);
-                if (location != null)
-                    matchedLocations.Add(location);
-            }
-
-            Inventory inventory = new()
-            {
-                ItemId = inventoryTemplate.ItemId,
-                Description = inventoryTemplate.Description,
-                ItemReference = inventoryTemplate.ItemReference,
-                TotalOnHand = inventoryTemplate.TotalOnHand,
-                TotalExpected = inventoryTemplate.TotalExpected,
-                TotalOrdered = inventoryTemplate.TotalOrdered,
-                TotalAllocated = inventoryTemplate.TotalAllocated,
-                TotalAvailable = inventoryTemplate.TotalAvailable,
-                Locations = matchedLocations
-            };
-
-            inventories.Add(inventory);
-        }
-
+        List<Inventory> inventories = JsonSerializer.Deserialize<List<Inventory>>(jsonInventoryTemplates);
         context.Inventories.AddRange(inventories);
         context.SaveChanges();
 
