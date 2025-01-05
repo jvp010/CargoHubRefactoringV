@@ -44,7 +44,7 @@ public class InventoryController : ControllerBase
     [HttpPut("Update")]
     public async Task<IActionResult> Update([FromBody] Inventory Inventory)
     {
-        bool check = _inventoryService.Put(Inventory);
+        bool check = _inventoryService.PutWithConstraints(Inventory);
         if(check) return Ok(Inventory);
         return BadRequest($"id: {Inventory.Id} not found so can not be modified");
 
