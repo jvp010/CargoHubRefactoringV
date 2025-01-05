@@ -34,9 +34,9 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         return false;
     }
 
-    public T Get(int id)
+    public T? Get(int id)
     {
-        T entity = SearchObject<T>.Check(default, _context, id);
+        T? entity = SearchObject<T>.Check(default!, _context, id);
 
         if (entity == null)
         {
