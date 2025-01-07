@@ -89,7 +89,7 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
 
 
 
-    public bool Put(T target)
+    public virtual bool Put(T target)
     {
         T Old = this.Get(target.Id);
         if (target == null || ( Old == null))  return false;

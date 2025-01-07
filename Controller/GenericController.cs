@@ -52,11 +52,4 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
         return BadRequest($"id: {Client.Id} not found so can not be modified");
 
     }
-
-
-
-
-
-
-
 }

@@ -6,7 +6,7 @@ public class InventoryService : CrudService<Inventory>
     {
         _context = context;
     }
-    public bool PutWithConstraints(Inventory target)
+    public override bool Put(Inventory target)
     {
         var holder = target.Locations;
         var holder2 = _context.Locations.Select(l => l.Id).ToList();
@@ -31,7 +31,7 @@ public class InventoryService : CrudService<Inventory>
     public (bool, double[]) GetInventoryTotalsForItem(string ItemID)
     {
         bool Check = false;
-        Inventory CheckifExist = _context.Inventories.FirstOrDefault(x => x.ItemId == ItemID);
+        Inventory? CheckifExist = _context.Inventories.FirstOrDefault(x => x.ItemId == ItemID);
         if (CheckifExist != null) Check = true;
 
         if (Check == false) return (Check, []);

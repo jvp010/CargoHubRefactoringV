@@ -1,4 +1,3 @@
-using System.Collections;
 
 public interface ICRUDinterface<T>
 {
