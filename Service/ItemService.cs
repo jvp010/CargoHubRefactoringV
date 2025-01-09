@@ -54,10 +54,10 @@ public class ItemService : ItemInterface
         }
         // a check to protect the DB from wrongly entered/ not existing ids in item class
         if (CheckIfTimeIsCorrect(target) == false) return (true, false, false, false, false, false, null!);
-        else if (_context.ItemGroups.Select(x => x.Id == target.ItemGroup).Count() == 0) return (true, true, false, false, false, false, null!);
-        else if (_context.ItemLines.Select(x => x.Id == target.ItemLine).Count() == 0) return (true, true, true, false, false, false, null!);
-        else if (_context.ItemTypes.Select(x => x.Id == target.ItemType).Count() == 0) return (true, true, true, true, false, false, null!);
-        else if (_context.Suppliers.Select(x => x.Id == target.SupplierId).Count() == 0) return (true, true, true, true, true, false, null!);
+        else if (_context.ItemGroups.FirstOrDefault(x => x.Id == target.ItemGroup) == null) return (true, true, false, false, false, false, null!);
+        else if (_context.ItemLines.FirstOrDefault(x => x.Id == target.ItemLine) == null) return (true, true, true, false, false, false, null!);
+        else if (_context.ItemTypes.FirstOrDefault(x => x.Id == target.ItemType) == null) return (true, true, true, true, false, false, null!);
+        else if (_context.Suppliers.FirstOrDefault(x => x.Id == target.SupplierId) == null) return (true, true, true, true, true, false, null!);
         // 5 checks 
         //(uid, time, itemgroup, itemline, itemtype, supplier)
         _context.Set<Item>().Add(target);
@@ -71,10 +71,10 @@ public class ItemService : ItemInterface
         Item? Old = this.Get(target.Uid);
         // a check to protect the DB from wrongly entered/ not existing ids in item class
         if (target == null || (Old == null)) return (false, false, false, false, false);
-        else if (_context.ItemGroups.Select(x => x.Id == target.ItemGroup).Count() == 0) return (true, false, false, false, false);
-        else if (_context.ItemLines.Select(x => x.Id == target.ItemLine).Count() == 0) return (true, true, false, false, false);
-        else if (_context.ItemTypes.Select(x => x.Id == target.ItemType).Count() == 0) return (true, true, true, false, false);
-        else if (_context.Suppliers.Select(x => x.Id == target.SupplierId).Count() == 0) return (true, true, true, true, false);
+        else if (_context.ItemGroups.FirstOrDefault(x => x.Id == target.ItemGroup) == null) return (true, false, false, false, false);
+        else if (_context.ItemLines.FirstOrDefault(x => x.Id == target.ItemLine) == null) return (true, true, false, false, false);
+        else if (_context.ItemTypes.FirstOrDefault(x => x.Id == target.ItemType) == null) return (true, true, true, false, false);
+        else if (_context.Suppliers.FirstOrDefault(x => x.Id == target.SupplierId) == null) return (true, true, true, true, false);
         // (does it even exist, itemgroup, itemline, itemtype, supplier)
         _context.ChangeTracker.Clear();
         target.CreatedAt = Old.CreatedAt;
@@ -89,7 +89,6 @@ public class ItemService : ItemInterface
 
     public List<Item> GetItemsForItemGroup(int ItemGroupID)
     {
-        List<int> itemGroupsIds = _context.ItemGroups.Select(x => x.Id).ToList();
 
         List<Item> Result = _context.Items.Where(x => x.ItemGroup == ItemGroupID).ToList();
 
@@ -98,7 +97,6 @@ public class ItemService : ItemInterface
 
     public List<Item> GetItemsForItemType(int ItemTypeID)
     {
-        List<int> itemTypesIds = _context.ItemTypes.Select(x => x.Id).ToList();
 
         List<Item> Result = _context.Items.Where(x => x.ItemType == ItemTypeID).ToList();
 
@@ -107,7 +105,6 @@ public class ItemService : ItemInterface
 
     public List<Item> GetItemsForItemLine(int ItemLineID)
     {
-        List<int> itemLinesIds = _context.ItemLines.Select(x => x.Id).ToList();
 
         List<Item> Result = _context.Items.Where(x => x.ItemLine == ItemLineID).ToList();
 
@@ -115,7 +112,6 @@ public class ItemService : ItemInterface
     }
     public List<Item> GetItemsForSupplier(int SupplierID)
     {
-        List<int> suppliersIds = _context.Suppliers.Select(x => x.Id).ToList();
 
         List<Item> Result = _context.Items.Where(x => x.SupplierId == SupplierID).ToList();
 
