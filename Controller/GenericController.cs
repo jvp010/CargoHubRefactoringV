@@ -19,7 +19,7 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
     [HttpGet("{id}")]
     public async Task<IActionResult> GetbyId(int id)
     {
-        T holder = _CRUDinterface.Get(id);
+        T? holder = _CRUDinterface.Get(id);
         if (holder != null) return Ok(holder);
         return NotFound($"id {id} has not been found");
     }

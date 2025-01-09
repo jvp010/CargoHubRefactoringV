@@ -55,7 +55,7 @@ public class ItemController : ControllerBase
         var result = _itemService.Put(item);
         // (exist, itemgroup, itemline, itemtype, supplier)
 
-        if (result.Item1 == false) return BadRequest(item);
+        if (result.Item1 == false) return BadRequest($"id: {item.Uid} not found so can not be modified");
         else if (result.Item2 == false) return BadRequest("ItemGroup id in item is not found");
         else if (result.Item3 == false) return BadRequest("ItemLine id in item is not found");
         else if (result.Item4 == false) return BadRequest("ItemType id in item is not found");
