@@ -10,7 +10,7 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         _context = context;
     }
 
-    public bool Delete(int id)
+    public virtual bool Delete(int id)
     {
         var entity = _context.Set<T>().Find(id);
         if (entity != null)
@@ -22,7 +22,7 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         return false;
     }
 
-    public bool Delete(T target)
+    public virtual bool Delete(T target)
     {
         var entity = _context.Set<T>().Find(target);
         if (entity != null)
@@ -34,7 +34,7 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
         return false;
     }
 
-    public T? Get(int id)
+    public virtual T? Get(int id)
     {
         T? entity = SearchObject<T>.Check(default!, _context, id);
 
@@ -47,7 +47,7 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
     }
 
 
-    public List<T> GetAll()
+    public virtual List<T> GetAll()
     {
         return _context.Set<T>()
             .OrderBy(x => x.Id)
@@ -57,13 +57,13 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
 
 
 
-    public async Task Patch(T target)
+    public virtual async Task Patch(T target)
     {
         var entity = await _context.Set<T>().FindAsync(target);
         // Implementation needed
     }
 
-    public T Post(T target)
+    public virtual T Post(T target)
     {
 
         if (target.CreatedAt == "" & target.UpdatedAt == "")

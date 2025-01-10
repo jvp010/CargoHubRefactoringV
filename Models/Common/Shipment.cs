@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 public class Shipment : BaseEntity
 {
-    // [JsonPropertyName("order_id")] // Uncomment if you have an order_id to map.
-    // public int OrderId { get; set; }
+    [JsonPropertyName("order_id")] // Uncomment if you have an order_id to map.
+    public int OrderId { get; set; }
 
     [JsonPropertyName("source_id")]
     public int SourceId { get; set; }

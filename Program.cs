@@ -16,6 +16,8 @@ builder.Services.AddAuthentication();
 
 builder.Services.AddTransient<ICRUDinterface<Client>, CrudService<Client>>();
 builder.Services.AddTransient<InventoryService>();
+builder.Services.AddTransient<TransferService>();
+
 
 builder.Services.AddTransient<ICRUDinterface<ItemGroup>, CrudService<ItemGroup>>();
 builder.Services.AddTransient<ICRUDinterface<ItemLine>, CrudService<ItemLine>>();
@@ -26,7 +28,6 @@ builder.Services.AddTransient<ICRUDinterface<Location>, CrudService<Location>>()
 builder.Services.AddTransient<ICRUDinterface<Order>, CrudService<Order>>();
 builder.Services.AddTransient<ICRUDinterface<Shipment>, CrudService<Shipment>>();
 builder.Services.AddTransient<ICRUDinterface<Supplier>, CrudService<Supplier>>();
-builder.Services.AddTransient<ICRUDinterface<Transfer>, CrudService<Transfer>>();
 builder.Services.AddTransient<ICRUDinterface<Warehouse>, CrudService<Warehouse>>();
 
 builder.Services.AddDbContext<ModelContext>(options =>
