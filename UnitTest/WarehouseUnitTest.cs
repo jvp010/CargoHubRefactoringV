@@ -23,8 +23,13 @@ public class WarehouseUnitTest
         Context.Warehouses.Add(new Warehouse
         {
             Id = 1,
+            Code = "WH001",
             Name = "Warehouse 1",
-            Address = "Location 1",
+            Address = "123 Warehouse Street",
+            City = "Warehouse City",
+            Zip = "12345", 
+            Province = "Warehouse Province",
+            Country = "Warehouse Country",
             CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         });
@@ -47,18 +52,27 @@ public class WarehouseUnitTest
         Context.Warehouses.Add(new Warehouse
         {
             Id = 1,
+            Code = "WH001", 
             Name = "Warehouse 1",
-            Address = "Location 1",
+            Address = "123 Warehouse Street",
+            City = "Warehouse City",
+            Zip = "12345",
+            Province = "Warehouse Province",
+            Country = "Warehouse Country",
             CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         });
 
-
         Context.Warehouses.Add(new Warehouse
         {
             Id = 2,
+            Code = "WH002",
             Name = "Warehouse 2",
-            Address = "Location 2",
+            Address = "456 Warehouse Avenue",
+            City = "Warehouse City",
+            Zip = "67890", 
+            Province = "Warehouse Province",
+            Country = "Warehouse Country",
             CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         });
@@ -81,8 +95,13 @@ public class WarehouseUnitTest
         Context.Warehouses.Add(new Warehouse
         {
             Id = 1,
+            Code = "WH001", 
             Name = "Warehouse 1",
-            Address = "Location 1",
+            Address = "123 Warehouse Street",
+            City = "Warehouse City",
+            Zip = "12345", 
+            Province = "Warehouse Province",
+            Country = "Warehouse Country",
             CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         });
@@ -106,8 +125,13 @@ public class WarehouseUnitTest
         Context.Warehouses.Add(new Warehouse
         {
             Id = 1,
+            Code = "WH001", 
             Name = "Warehouse 1",
-            Address = "Location 1",
+            Address = "123 Warehouse Street",
+            City = "Warehouse City",
+            Zip = "12345", 
+            Province = "Warehouse Province",
+            Country = "Warehouse Country",
             CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         });
@@ -120,8 +144,13 @@ public class WarehouseUnitTest
         warehouseService.Put(new Warehouse
         {
             Id = 1,
+            Code = "WH001-UPDATED", 
             Name = "Updated Warehouse",
-            Address = "Location 1",
+            Address = "123 Warehouse Street",
+            City = "Warehouse City",
+            Zip = "12345", 
+            Province = "Warehouse Province",
+            Country = "Warehouse Country",
             CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
             UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         });
