@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 public class Contact
 {
-    [JsonPropertyName("id")]
-    public int Id { get; set; }
+    // [JsonPropertyName("id")]
+    // public int Id { get; set; }
 
     [JsonPropertyName("name")]
     public string Name { get; set; }

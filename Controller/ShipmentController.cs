@@ -20,18 +20,18 @@ public class ShipmentController : ControllerBase
         return items;
     }
 
-    [HttpPut("{shipmentId}/items")]
-    public ActionResult UpdateItemsInShipment(int shipmentId, List<ShipmentItem> items)
-    {
-        var result = _shipmentService.UpdateItemsInShipment(shipmentId, items);
-        if (!result) return NotFound();
-        return NoContent();
-    }
+    // [HttpPut("{shipmentId}/items")]
+    // public ActionResult UpdateItemsInShipment(int shipmentId, List<ShipmentItem> items)
+    // {
+    //     var result = _shipmentService.UpdateItemsInShipment(shipmentId, items);
+    //     if (!result) return NotFound();
+    //     return NoContent();
+    // }
 
     [HttpPost]
     public ActionResult<Shipment> Post(Shipment target)
     {
-        var result = _shipmentService.CreateShipment(target);
+        var result = _shipmentService.Post(target);
         if (result == null) return BadRequest("Invalid data");
         return CreatedAtAction(nameof(GetItemsInShipment), new { shipmentId = result.Id }, result);
     }
@@ -39,7 +39,7 @@ public class ShipmentController : ControllerBase
     [HttpPut]
     public ActionResult Put(Shipment target)
     {
-        var result = _shipmentService.UpdateShipment(target);
+        var result = _shipmentService.Put(target);
         if (!result) return BadRequest("Invalid data");
         return NoContent();
     }

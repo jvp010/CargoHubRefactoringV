@@ -14,78 +14,78 @@ public class ShipmentService : CrudService<Shipment>
         var shipment = _context.Shipments.FirstOrDefault(s => s.Id == shipmentId);
         return shipment?.Items;
     }
-    public bool UpdateItemsInShipment(int shipmentId, List<ShipmentItem> items)
-    {
-        var shipment = _context.Shipments.FirstOrDefault(s => s.Id == shipmentId);
-        if (shipment == null) return false;
+    // public bool UpdateItemsInShipment(int shipmentId, List<ShipmentItem> items)
+    // {
+    //     var shipment = _context.Shipments.FirstOrDefault(s => s.Id == shipmentId);
+    //     if (shipment == null) return false;
 
-        var currentItems = shipment.Items;
+    //     var currentItems = shipment.Items;
 
-        foreach (var currentItem in currentItems)
-        {
-            var found = items.Any(item => item.shipment_item_id == currentItem.shipment_item_id);
-            if (!found)
-            {
-                var inventories = _context.Inventories.Where(i => i.ItemId == currentItem.shipment_item_id).ToList();
-                var maxInventory = inventories.OrderByDescending(i => i.TotalOrdered).FirstOrDefault();
-                if (maxInventory != null)
-                {
-                    maxInventory.TotalOrdered -= currentItem.Amount;
-                    maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
-                    _context.Inventories.Update(maxInventory);
-                }
-            }
-        }
+    //     foreach (var currentItem in currentItems)
+    //     {
+    //         var found = items.Any(item => item.shipment_item_id == currentItem.shipment_item_id);
+    //         if (!found)
+    //         {
+    //             var inventories = _context.Inventories.Where(i => i.ItemId == currentItem.shipment_item_id).ToList();
+    //             var maxInventory = inventories.OrderByDescending(i => i.TotalOrdered).FirstOrDefault();
+    //             if (maxInventory != null)
+    //             {
+    //                 maxInventory.TotalOrdered -= currentItem.Amount;
+    //                 maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
+    //                 _context.Inventories.Update(maxInventory);
+    //             }
+    //         }
+    //     }
 
-        foreach (var currentItem in currentItems)
-        {
-            foreach (var newItem in items)
-            {
-                if (currentItem.shipment_item_id == newItem.shipment_item_id)
-                {
-                    var inventories = _context.Inventories.Where(i => i.ItemId == currentItem.shipment_item_id).ToList();
-                    var maxInventory = inventories.OrderByDescending(i => i.TotalOrdered).FirstOrDefault();
-                    if (maxInventory != null)
-                    {
-                        maxInventory.TotalOrdered += newItem.Amount - currentItem.Amount;
-                        maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
-                        _context.Inventories.Update(maxInventory);
-                    }
-                }
-            }
-        }
+    //     foreach (var currentItem in currentItems)
+    //     {
+    //         foreach (var newItem in items)
+    //         {
+    //             if (currentItem.shipment_item_id == newItem.shipment_item_id)
+    //             {
+    //                 var inventories = _context.Inventories.Where(i => i.ItemId == currentItem.shipment_item_id).ToList();
+    //                 var maxInventory = inventories.OrderByDescending(i => i.TotalOrdered).FirstOrDefault();
+    //                 if (maxInventory != null)
+    //                 {
+    //                     maxInventory.TotalOrdered += newItem.Amount - currentItem.Amount;
+    //                     maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
+    //                     _context.Inventories.Update(maxInventory);
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        shipment.Items = items;
-        return this.put(shipment);
+    //     shipment.Items = items;
+    //     return this.put(shipment);
         
     
 
-        foreach (var item in target.Items)
-        {
-            if (_context.Items.FirstOrDefault(x => x.Uid == item.shipment_item_id) == null) return null!;
-        }  // if item.uid does not exist in items return null
+    //     foreach (var item in target.Items)
+    //     {
+    //         if (_context.Items.FirstOrDefault(x => x.Uid == item.shipment_item_id) == null) return null!;
+    //     }  // if item.uid does not exist in items return null
 
-        if (target.CreatedAt == "" & target.UpdatedAt == "")
-        {
-            string time = DateTime.UtcNow.ToString();
-            target.CreatedAt = time;
-            target.UpdatedAt = time;
-        }
+    //     if (target.CreatedAt == "" & target.UpdatedAt == "")
+    //     {
+    //         string time = DateTime.UtcNow.ToString();
+    //         target.CreatedAt = time;
+    //         target.UpdatedAt = time;
+    //     }
 
-        if (CheckIfTimeIsCorrect(target) == false) return null!;
-        if (target.Id == 0 & _context.Set<Shipment>().ToList().Count != 0)
-        {
-            target.Id = _context.Set<Shipment>().OrderBy(x => x.Id).ToList().Last().Id + 1; // autogenereted id when using a large DB
-        }
-        _context.Set<Shipment>().Add(target);
-        _context.SaveChanges();
+    //     if (CheckIfTimeIsCorrect(target) == false) return null!;
+    //     if (target.Id == 0 & _context.Set<Shipment>().ToList().Count != 0)
+    //     {
+    //         target.Id = _context.Set<Shipment>().OrderBy(x => x.Id).ToList().Last().Id + 1; // autogenereted id when using a large DB
+    //     }
+    //     _context.Set<Shipment>().Add(target);
+    //     _context.SaveChanges();
 
-        return target;
-    }
+    //     return target;
+    // }
 
     public override bool Put(Shipment target)
     {
-        if (_context.Orders.FirstOrDefault(x => x.Id == target.OrderId) == null) return null!;
+        if (_context.Orders.FirstOrDefault(x => x.Id == target.OrderId) == null) return false;
 
         Shipment? Old = this.Get(target.Id);
         if (target == null || (Old == null)) return false;
@@ -106,7 +106,7 @@ public class ShipmentService : CrudService<Shipment>
         return true;
     }
 
-    public ShipmentItem? GetItemsInShipment(int ShipmentID)
+    public ShipmentItem? GetItemsInShipment_(int ShipmentID)
     {
         Shipment? holder = _context.Shipments.FirstOrDefault(x => x.Id == ShipmentID);
         if (holder == null) return null;
