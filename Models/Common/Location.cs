@@ -12,6 +12,6 @@ public class Location : BaseEntity
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
-    [JsonPropertyName("inventories")]
-    public ICollection<Inventory> Inventories { get; set; }
+    // [JsonPropertyName("inventories")]
+    // public ICollection<Inventory> Inventories { get; set; }
 }

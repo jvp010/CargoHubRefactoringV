@@ -47,24 +47,28 @@ public class ModelContext : DbContext
             .HasOne<ItemLine>()
             .WithMany()
             .HasForeignKey(i => i.ItemLine)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         modelBuilder.Entity<Item>()
             .HasOne<ItemType>()
             .WithMany()
             .HasForeignKey(i => i.ItemType)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         modelBuilder.Entity<Item>()
             .HasOne<ItemGroup>()
             .WithMany()
             .HasForeignKey(i => i.ItemGroup)
+            .OnDelete(DeleteBehavior.SetNull) 
             .IsRequired(false);
 
         modelBuilder.Entity<Item>()
             .HasOne<Supplier>()
             .WithMany()
-            .HasForeignKey(i => i.SupplierId);
+            .HasForeignKey(i => i.SupplierId)
+            .OnDelete(DeleteBehavior.Restrict); 
 
         // Inventory // succes
         modelBuilder.Entity<Inventory>()
@@ -74,10 +78,12 @@ public class ModelContext : DbContext
             .Property(i => i.Id)
             .IsRequired();
 
-        // modelBuilder.Entity<Inventory>()
-        //     .HasOne<Item>()
-        //     .WithOne()
-        //     .HasForeignKey<Inventory>(i => i.ItemId);
+        modelBuilder.Entity<Inventory>()
+            .HasOne<Item>()
+            .WithOne()
+            .HasForeignKey<Inventory>(i => i.item_id)
+            .OnDelete(DeleteBehavior.Restrict); 
+
 
 
         // Location // succes
@@ -88,7 +94,11 @@ public class ModelContext : DbContext
             .Property(i => i.Id)
             .IsRequired();
 
-
+        modelBuilder.Entity<Location>()
+            .HasOne<Warehouse>()
+            .WithMany()
+            .HasForeignKey(i => i.WarehouseId) 
+            .OnDelete(DeleteBehavior.Restrict);
 
         //OrdeR
         modelBuilder.Entity<Order>()
@@ -101,24 +111,30 @@ public class ModelContext : DbContext
         modelBuilder.Entity<Order>()
             .HasOne<Warehouse>()
             .WithMany()
-            .HasForeignKey(i => i.WarehouseId);
+            .HasForeignKey(i => i.WarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
 
-        // modelBuilder.Entity<Order>()
-        //     .HasOne<Client>()
-        //     .WithMany()
-        //     .HasForeignKey(i => i.ship_to)
-        //     .IsRequired(false);
 
-        // modelBuilder.Entity<Order>()
-        //     .HasOne<Client>()
-        //     .WithMany()
-        //     .HasForeignKey(i => i.bill_to)
-        //     .IsRequired(false);
+        modelBuilder.Entity<Order>()
+            .HasOne<Client>()
+            .WithMany()
+            .HasForeignKey(i => i.ShipTo)
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Order>()
+            .HasOne<Client>()
+            .WithMany()
+            .HasForeignKey(i => i.BillTo)
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
 
         modelBuilder.Entity<Order>()
             .HasOne<Shipment>()
             .WithOne()
-            .HasForeignKey<Order>(i => i.ShipmentId);
+            .HasForeignKey<Order>(i => i.ShipmentId)
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
 
         modelBuilder.Entity<Order>(order =>
         {
@@ -151,7 +167,7 @@ public class ModelContext : DbContext
             });
         });
 
-        // suppleir
+        // Supplier
         modelBuilder.Entity<Supplier>()
             .HasKey(i => i.Id);
 
@@ -171,12 +187,14 @@ public class ModelContext : DbContext
             .HasOne<Location>()
             .WithMany()
             .HasForeignKey(i => i.TransferFrom)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         modelBuilder.Entity<Transfer>()
             .HasOne<Location>()
             .WithMany()
             .HasForeignKey(i => i.TransferTo)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         modelBuilder.Entity<Transfer>(transfer =>

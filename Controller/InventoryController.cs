@@ -49,22 +49,22 @@ public class InventoryController : ControllerBase
         return BadRequest($"id: {Inventory.Id} not found so can not be modified");
 
     }
-    [HttpGet("item/{ItemID}")]
-    public async Task<IActionResult> InventoriesWithItem(string ItemID)
-    {
-        List<Inventory> holder = _inventoryService.GetInventoriesForItem(ItemID);
-        if (holder.Count != 0) return Ok(holder);
-        return NotFound($"ItemID {ItemID} has not been found");
-    }
-    [HttpGet("item/totals/{ItemID}")]
-    public async Task<IActionResult> InventoryTotalsForItem(string ItemID)
-    {
-        (bool check, double[] Result) = _inventoryService.GetInventoryTotalsForItem(ItemID);
-        if(check && Result.Length > 0){
-            return Ok($"total_expected: {Result[0]},\ntotal_ordered: {Result[1]},\ntotal_allocated: {Result[2]},\ntotal_available: {Result[3]}");
-        }
-        return NotFound($"ItemID {ItemID} has not been found");
-    }
+    // [HttpGet("item/{ItemID}")]
+    // public async Task<IActionResult> InventoriesWithItem(string ItemID)
+    // {
+    //     List<Inventory> holder = _inventoryService.GetInventoriesForItem(ItemID);
+    //     if (holder.Count != 0) return Ok(holder);
+    //     return NotFound($"ItemID {ItemID} has not been found");
+    // }
+    // [HttpGet("item/totals/{ItemID}")]
+    // public async Task<IActionResult> InventoryTotalsForItem(string ItemID)
+    // {
+    //     (bool check, double[] Result) = _inventoryService.GetInventoryTotalsForItem(ItemID);
+    //     if(check && Result.Length > 0){
+    //         return Ok($"total_expected: {Result[0]},\ntotal_ordered: {Result[1]},\ntotal_allocated: {Result[2]},\ntotal_available: {Result[3]}");
+    //     }
+    //     return NotFound($"ItemID {ItemID} has not been found");
+    // }
 }
 
     

@@ -43,4 +43,30 @@ public class ShipmentController : ControllerBase
         if (!result) return BadRequest("Invalid data");
         return NoContent();
     }
+
+
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetbyId(int id)
+    {
+        Shipment? holder = _shipmentService.Get(id);
+        if (holder != null) return Ok(holder);
+        return NotFound($"id {id} has not been found");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+
+        List<Shipment> holder = _shipmentService.GetAll();
+        return Ok(holder);
+    }
+    
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> Delete([FromQuery] int id)
+    {
+        bool check = _shipmentService.Delete(id);
+        if (check) return Ok("id " + id + " has been deleted");
+        return BadRequest($"id: {id} not found to be deleted");
+    }
 }
