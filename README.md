@@ -1,8 +1,6 @@
 # CargoHubTeam2
 
-- Khadija Arkhouch
-- Sara Mokadem
-- Hasan cakir
+
 - Valdier dos Santos
 
 # Docker Set-Up
@@ -18,3 +16,4 @@ this creates a snapshot of the models attributes and there relations and will au
 ### 3 dotnet ef database update 
 will use the latest created migrations and will push its database structure in the DB that can be seen at http://localhost:8081/login?next=/
 
+dotnet ef database drop --force
