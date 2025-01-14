@@ -208,4 +208,298 @@ public class ItemUnitTest
         Item updatedItem = itemService.Get("P000001");
         Assert.Equal("UpdatedCode", updatedItem.Code);
     }
+
+
+
+
+
+    [Fact]
+    public void GetItemsForItemGroupTest()
+    {
+        // Given
+        var itemGroup = new ItemGroup
+        {
+            Id = 5,
+            Name = "Stationery",
+            Description = "Group for all stationery items",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.ItemGroups.Add(itemGroup);
+        //{'CommodityCode', 'ModelNumber', 'UpcCode'}
+        var item1 = new Item
+        {
+
+            Uid = "P000005",
+            Code = "mHo61152n",
+            Description = "Stand-alone 24hour emulation",
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
+            ShortDescription = "there",
+            ItemGroup = 5,
+            ItemType = 28,
+            UnitPurchaseQuantity = 44,
+            UnitOrderQuantity = 2,
+            PackOrderQuantity = 20,
+            SupplierId = 35,
+            SupplierCode = "SUP347",
+            SupplierPartNumber = "NzG-36a1",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item1);
+
+
+        var item2 = new Item
+        {
+            Uid = "P000006",
+            Code = "aBc1234",
+            Description = "Another item",
+
+            ShortDescription = "sample",
+            ItemGroup = 5,
+            ItemType = 28,
+            UnitPurchaseQuantity = 10,
+            UnitOrderQuantity = 5,
+            PackOrderQuantity = 50,
+            SupplierId = 35,
+            SupplierCode = "SUP348",
+            SupplierPartNumber = "NzG-36a2",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item2);
+        Context.SaveChanges();
+
+
+        // When
+        var itemService = new ItemService(Context);
+        List<Item> items = itemService.GetItemsForItemGroup(5);
+
+
+        // Then
+        Assert.Equal(2, items.Count);
+    }
+
+
+    [Fact]
+    public void GetItemsForItemLineTest()
+    {
+        // Given
+        var ItemLine = new ItemLine
+        {
+            Id = 5,
+            Name = "Stationery",
+            Description = "Group for all stationery items",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.ItemLines.Add(ItemLine);
+        //{'CommodityCode', 'ModelNumber', 'UpcCode'}
+        var item1 = new Item
+        {
+
+            Uid = "P000005",
+            Code = "mHo61152n",
+            Description = "Stand-alone 24hour emulation",
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
+            ShortDescription = "there",
+            ItemLine = 5,
+            ItemGroup = 35,
+            ItemType = 28,
+            UnitPurchaseQuantity = 44,
+            UnitOrderQuantity = 2,
+            PackOrderQuantity = 20,
+            SupplierId = 35,
+            SupplierCode = "SUP347",
+            SupplierPartNumber = "NzG-36a1",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item1);
+
+
+        var item2 = new Item
+        {
+            Uid = "P000006",
+            Code = "aBc1234",
+            Description = "Another item",
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
+            ShortDescription = "sample",
+            ItemLine = 5,
+            ItemGroup = 35,
+            ItemType = 28,
+            UnitPurchaseQuantity = 10,
+            UnitOrderQuantity = 5,
+            PackOrderQuantity = 50,
+            SupplierId = 35,
+            SupplierCode = "SUP348",
+            SupplierPartNumber = "NzG-36a2",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item2);
+        Context.SaveChanges();
+
+
+        // When
+        var itemService = new ItemService(Context);
+        List<Item> items = itemService.GetItemsForItemLine(5);
+
+
+        // Then
+        Assert.Equal(2, items.Count);
+    }
+    [Fact]
+    public void GetItemsForItemTypeTest()
+    {
+        // Given
+        var ItemType = new ItemType
+        {
+            Id = 5,
+            Name = "Stationery",
+            Description = "Group for all stationery items",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.ItemTypes.Add(ItemType);
+        //{'CommodityCode', 'ModelNumber', 'UpcCode'}
+        var item1 = new Item
+        {
+
+            Uid = "P000005",
+            Code = "mHo61152n",
+            Description = "Stand-alone 24hour emulation",
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
+            ShortDescription = "there",
+            ItemLine = 5,
+            ItemGroup = 35,
+            ItemType = 5,
+            UnitPurchaseQuantity = 44,
+            UnitOrderQuantity = 2,
+            PackOrderQuantity = 20,
+            SupplierId = 35,
+            SupplierCode = "SUP347",
+            SupplierPartNumber = "NzG-36a1",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item1);
+        var item2 = new Item
+        {
+            Uid = "P000006",
+            Code = "aBc1234",
+            Description = "Another item",
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
+            ShortDescription = "sample",
+            ItemLine = 53,
+            ItemGroup = 5,
+            ItemType = 28,
+            UnitPurchaseQuantity = 10,
+            UnitOrderQuantity = 5,
+            PackOrderQuantity = 50,
+            SupplierId = 35,
+            SupplierCode = "SUP348",
+            SupplierPartNumber = "NzG-36a2",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item2);
+        Context.SaveChanges();
+
+        var itemService = new ItemService(Context);
+        List<Item> items = itemService.GetItemsForItemGroup(5);
+
+
+        // Then
+        Assert.Equal(1, items.Count);
+    }
+
+
+    [Fact]
+    public void GetItemsForSupplier()
+    {
+         // Given
+        var supplier = new Supplier
+        {
+            Id = 1,
+            Code = "SUP0001",
+            Name = "Lee, Parks and Johnson",
+            Address = "5989 Sullivan Drives",
+            AddressExtra = "Apt. 996",
+            City = "Port Anitaburgh",
+            ZipCode = "91688",
+            Province = "Illinois",
+            Country = "Czech Republic",
+            ContactName = "Toni Barnett",
+            PhoneNumber = "363.541.7282x36825",
+            Reference = "LPaJ-SUP0001",
+            CreatedAt = DateTime.Parse("1971-10-20 18:06:17").ToString(),
+            UpdatedAt = DateTime.Parse("1985-06-08 00:13:46").ToString()
+        };
+
+        Context.Suppliers.Add(supplier);
+        var item1 = new Item
+        {
+
+            Uid = "P000005",
+            Code = "mHo61152n",
+            Description = "Stand-alone 24hour emulation",
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
+            ShortDescription = "there",
+            ItemLine = 5,
+            ItemGroup = 35,
+            ItemType = 5,
+            UnitPurchaseQuantity = 44,
+            UnitOrderQuantity = 2,
+            PackOrderQuantity = 20,
+            SupplierId = 1,
+            SupplierCode = "SUP347",
+            SupplierPartNumber = "NzG-36a1",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item1);
+        var item2 = new Item
+        {
+            Uid = "P000006",
+            Code = "aBc1234",
+            Description = "Another item",
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
+            ShortDescription = "sample",
+            ItemLine = 53,
+            ItemGroup = 5,
+            ItemType = 28,
+            UnitPurchaseQuantity = 10,
+            UnitOrderQuantity = 5,
+            PackOrderQuantity = 50,
+            SupplierId = 2,
+            SupplierCode = "SUP348",
+            SupplierPartNumber = "NzG-36a2",
+            CreatedAt = DateTime.Parse("2017-04-01 09:15:22").ToString(),
+            UpdatedAt = DateTime.Parse("2024-06-10 14:45:07").ToString()
+        };
+        Context.Items.Add(item2);
+        Context.SaveChanges();
+
+        var itemService = new ItemService(Context);
+        List<Item> items = itemService.GetItemsForSupplier(1);
+
+
+        // Then
+        Assert.Equal(1, items.Count);
+    }
 }

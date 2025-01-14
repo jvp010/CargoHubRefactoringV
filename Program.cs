@@ -16,7 +16,6 @@ public class Program
 
         builder.Services.AddControllers();
         builder.Services.AddAuthentication();
-        //PersonContext added as a scoped (default of method AddDbContext) service:
 
         builder.Services.AddTransient<ICRUDinterface<Client>, CrudService<Client>>();
         builder.Services.AddTransient<InventoryService>();
@@ -150,35 +149,11 @@ public class Program
                 context.SaveChanges();
 
                 // Load Inventory Templates and Map to Inventory
-                string jsonInventory = File.ReadAllText("data/inventories.json");
-                List<InventoryTemplate> InventoriesTemplate = JsonSerializer.Deserialize<List<InventoryTemplate>>(jsonInventory);
-                List<Inventory> inventories = new List<Inventory>();
-                foreach (var inventory in InventoriesTemplate)
-                {
-                    List<int> ids = inventory.locations;
-                    List<Location> locationsholder = new List<Location>();
-
-                    foreach (var id in ids)
-                    {
-                        locationsholder.Add(context.Locations.Find(id));
-                    }
-                    Inventory NewInventory = new Inventory
-                    {
-                        item_id = inventory.item_id,
-                        description = inventory.description,
-                        item_reference = inventory.item_reference,
-                        total_on_hand = inventory.total_on_hand,
-                        total_expected = inventory.total_expected,
-                        total_ordered = inventory.total_ordered,
-                        total_allocated = inventory.total_allocated,
-                        total_available = inventory.total_available,
-                        locations = locationsholder
-
-                    };
-                    inventories.Add(NewInventory);
-                }
-
-                context.Inventories.AddRange(inventories); // success
+                string jsonInventoryTemplates = File.ReadAllText("data/inventories.json");
+                List<Inventory> inventories = JsonSerializer.Deserialize<List<Inventory>>(jsonInventoryTemplates);
+                context.Inventories.AddRange(inventories);
+                context.SaveChanges();
+                
 
                 // Load Shipments
                 string jsonShipments = File.ReadAllText("data/shipments.json");

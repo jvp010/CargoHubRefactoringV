@@ -81,10 +81,10 @@ public class ModelContext : DbContext
         modelBuilder.Entity<Inventory>()
             .HasOne<Item>()
             .WithOne()
-            .HasForeignKey<Inventory>(i => i.item_id)
+            .HasForeignKey<Inventory>(i => i.ItemId)
             .OnDelete(DeleteBehavior.Restrict); 
 
-
+    
 
         // Location // succes
         modelBuilder.Entity<Location>()
