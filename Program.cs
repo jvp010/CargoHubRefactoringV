@@ -1,7 +1,8 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+
+var builder = WebApplication.CreateBuilder();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -36,7 +37,7 @@ builder.Services.AddTransient<ICRUDinterface<Warehouse>, CrudService<Warehouse>>
 builder.Services.AddDbContext<ModelContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"))
                        .EnableSensitiveDataLogging());  // Enable detailed logging
-// postgres DB
+                                                        // postgres DB
 
 var app = builder.Build();
 
@@ -54,6 +55,10 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     Console.WriteLine("Enter 'yes' to load the JSONs.");
+    var test = scope.ServiceProvider.GetRequiredService<ModelContext>();
+
+    // objecten met een list
+
     string answer = Console.ReadLine();
 
     if (answer?.ToLower() == "yes")
@@ -142,7 +147,7 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
 
         // Load Inventory Templates and Map to Inventory
-         string jsonInventory = File.ReadAllText("data/inventories.json");
+        string jsonInventory = File.ReadAllText("data/inventories.json");
         List<InventoryTemplate> InventoriesTemplate = JsonSerializer.Deserialize<List<InventoryTemplate>>(jsonInventory);
         List<Inventory> inventories = new List<Inventory>();
         foreach (var inventory in InventoriesTemplate)

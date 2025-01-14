@@ -43,39 +43,29 @@ public class ItemService : ItemInterface
         return _context.Set<Item>().ToList();
     }
 
-    public (bool, bool, bool, bool, bool, bool, Item) Post(Item target)
+    public Item Post(Item target)
     {
-        if (target.Uid == "") return (false, false, false, false, false, false, null!);
+        if (target.Uid == "") return null;
         if (target.CreatedAt == "" & target.UpdatedAt == "")
         {
             string time = DateTime.UtcNow.ToString();
             target.CreatedAt = time;
             target.UpdatedAt = time;
         }
-        // a check to protect the DB from wrongly entered/ not existing ids in item class
-        if (CheckIfTimeIsCorrect(target) == false) return (true, false, false, false, false, false, null!);
-        else if (_context.ItemGroups.FirstOrDefault(x => x.Id == target.ItemGroup) == null) return (true, true, false, false, false, false, null!);
-        else if (_context.ItemLines.FirstOrDefault(x => x.Id == target.ItemLine) == null) return (true, true, true, false, false, false, null!);
-        else if (_context.ItemTypes.FirstOrDefault(x => x.Id == target.ItemType) == null) return (true, true, true, true, false, false, null!);
-        else if (_context.Suppliers.FirstOrDefault(x => x.Id == target.SupplierId) == null) return (true, true, true, true, true, false, null!);
-        // 5 checks 
-        //(uid, time, itemgroup, itemline, itemtype, supplier)
+        if (CheckIfTimeIsCorrect(target) == false) return null;
+        
         _context.Set<Item>().Add(target);
         _context.SaveChanges();
 
-        return (true, true, true, true, true, true, target);
+        return target;
     }
 
-    public (bool, bool, bool, bool, bool) Put(Item target)
+    public bool Put(Item target)
     {
         Item? Old = this.Get(target.Uid);
         // a check to protect the DB from wrongly entered/ not existing ids in item class
-        if (target == null || (Old == null)) return (false, false, false, false, false);
-        else if (_context.ItemGroups.FirstOrDefault(x => x.Id == target.ItemGroup) == null) return (true, false, false, false, false);
-        else if (_context.ItemLines.FirstOrDefault(x => x.Id == target.ItemLine) == null) return (true, true, false, false, false);
-        else if (_context.ItemTypes.FirstOrDefault(x => x.Id == target.ItemType) == null) return (true, true, true, false, false);
-        else if (_context.Suppliers.FirstOrDefault(x => x.Id == target.SupplierId) == null) return (true, true, true, true, false);
-        // (does it even exist, itemgroup, itemline, itemtype, supplier)
+        if (target == null || (Old == null)) return false;
+       
         _context.ChangeTracker.Clear();
         target.CreatedAt = Old.CreatedAt;
         target.UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -84,7 +74,7 @@ public class ItemService : ItemInterface
         _context.Entry(target).State = EntityState.Modified;
 
         _context.SaveChanges();
-        return (true, true, true, true, true);
+        return true;
     }
 
     public List<Item> GetItemsForItemGroup(int ItemGroupID)

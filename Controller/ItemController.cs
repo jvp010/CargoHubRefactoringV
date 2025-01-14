@@ -32,12 +32,7 @@ public class ItemController : ControllerBase
     {
         //(uid, time, itemgroup, itemline, itemtype, supplier, item itself )
         var result = _ItemInterface.Post(item);
-        if (result.Item1 == false) return BadRequest("uid is empty");
-        else if (result.Item2 == false) return BadRequest("Time format for created at/updated is wrong");
-        else if (result.Item3 == false) return BadRequest("ItemGroup id in item is not found");
-        else if (result.Item4 == false) return BadRequest("ItemLine id in item is not found");
-        else if (result.Item5 == false) return BadRequest("ItemType id in item is not found");
-        else if (result.Item6 == false) return BadRequest("Supplier id in item is not found");
+        if (result == null) return BadRequest("Time format for created at/updated is wrong");
         return Ok(item);
     }
 
@@ -53,13 +48,7 @@ public class ItemController : ControllerBase
     public async Task<IActionResult> Update([FromBody] Item item)
     {
         var result = _ItemInterface.Put(item);
-        // (exist, itemgroup, itemline, itemtype, supplier)
-
-        if (result.Item1 == false) return BadRequest($"id: {item.Uid} not found so can not be modified");
-        else if (result.Item2 == false) return BadRequest("ItemGroup id in item is not found");
-        else if (result.Item3 == false) return BadRequest("ItemLine id in item is not found");
-        else if (result.Item4 == false) return BadRequest("ItemType id in item is not found");
-        else if (result.Item5 == false) return BadRequest("Supplier id in item is not found");
+        if (result == false) return BadRequest($"id: {item.Uid} not found so can not be modified");
         return Ok(item);
     }
     [HttpGet("ItemLines/{ItemID}")]
