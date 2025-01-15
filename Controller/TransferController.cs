@@ -55,8 +55,8 @@ public class TransferController : ControllerBase
     [HttpGet("{TransferID}/items")]
     public async Task<IActionResult> GetItemsInTransfer(int TransferID)
     {
-        TransferItem? item = _transferService.GetItemsInTransfer(TransferID);
-        if (item == null) return NotFound($"Items for TransferID {TransferID} not found");
-        return Ok(item);
+        List<TransferItem> items = _transferService.GetItemsInTransfer(TransferID);
+        if (items == null) return NotFound($"Items for TransferID {TransferID} not found");
+        return Ok(items);
     }
 }

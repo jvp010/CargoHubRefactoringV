@@ -80,8 +80,8 @@ public class ModelContext : DbContext
 
         modelBuilder.Entity<Inventory>()
             .HasOne<Item>()
-            .WithOne()
-            .HasForeignKey<Inventory>(i => i.ItemId)
+            .WithMany()
+            .HasForeignKey(i => i.ItemId)
             .OnDelete(DeleteBehavior.Restrict); 
 
     

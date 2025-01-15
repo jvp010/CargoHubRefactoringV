@@ -33,7 +33,7 @@ public class LocationUnitTest
 
         Context.SaveChanges();
 
-        var locationService = new CrudService<Location>(Context);
+        var locationService = new LocationService(Context);
 
         // When
         Location location = locationService.Get(1);
@@ -70,7 +70,7 @@ public class LocationUnitTest
 
         Context.SaveChanges();
 
-        var locationService = new CrudService<Location>(Context);
+        var locationService = new LocationService(Context);
 
         // When
         List<Location> locations = locationService.GetAll();
@@ -123,7 +123,7 @@ public class LocationUnitTest
 
         Context.SaveChanges();
 
-        var locationService = new CrudService<Location>(Context);
+        var locationService = new LocationService(Context);
 
         // When
         locationService.Put(new Location
@@ -141,5 +141,38 @@ public class LocationUnitTest
         Location? updatedLocation = locationService.Get(1);
         Assert.Equal("Updated Location", updatedLocation.Name);
     }
-   
+
+    [Fact]
+    public void GetLocationsInWarehouseTest()
+    {
+        // Given
+        Context.Locations.Add(new Location
+        {
+            Id = 1,
+            Name = "location 1",
+            WarehouseId = 5,
+            Code = "A.7.0",
+
+            CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        });
+        Context.Locations.Add(new Location
+        {
+            Id = 2,
+            Name = "location 1",
+            WarehouseId = 5,
+            Code = "A.7.0",
+
+            CreatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        });
+        // When
+         Context.SaveChanges();
+
+        var locationService = new LocationService(Context);
+
+        List<Location> locations = locationService.GetLocationsInWarehouse(5);
+        // Then
+        Assert.Equal(2, locations.Count);
+    }
 }

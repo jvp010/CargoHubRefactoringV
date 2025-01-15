@@ -11,11 +11,11 @@ public class TransferService : CrudService<Transfer>
     }
 
     
-    public TransferItem? GetItemsInTransfer(int TransferID)
+    public List<TransferItem>? GetItemsInTransfer(int TransferID)
     {
         Transfer? holder = _context.Transfers.FirstOrDefault(x => x.Id == TransferID);
         if (holder == null) return null;
-        return holder.Items[0]; // Transfer Item List so far only had always 1 element in there list
+        return holder.Items; 
     }
 
 

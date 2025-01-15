@@ -256,7 +256,9 @@ public class ItemUnitTest
             Uid = "P000006",
             Code = "aBc1234",
             Description = "Another item",
-
+            CommodityCode = "1",
+            ModelNumber = "test",
+            UpcCode = "3",
             ShortDescription = "sample",
             ItemGroup = 5,
             ItemType = 28,
