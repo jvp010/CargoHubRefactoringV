@@ -24,6 +24,13 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
         return NotFound($"id {id} has not been found");
     }
 
+    [HttpGet("{PageNumber}/Paginization/{PageSize}")]
+    public async Task<IActionResult> GetAll(int PageNumber, int PageSize)
+    {
+        List<T> holder = _CRUDinterface.GetAll(PageNumber,PageSize);
+        return Ok(holder);
+       
+    }
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -35,8 +42,8 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
     public async Task<IActionResult> Post([FromBody] T Client)
     {
         if (_CRUDinterface.Post(Client) != null) return Ok(Client);
-        return BadRequest("Time format for created at/updated is wrong"); 
-        }
+        return BadRequest("Time format for created at/updated is wrong");
+    }
     [HttpDelete("Delete")]
     public async Task<IActionResult> Delete([FromQuery] int id)
     {
@@ -48,7 +55,7 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
     public async Task<IActionResult> Update([FromBody] T Client)
     {
         bool check = _CRUDinterface.Put(Client);
-        if(check) return Ok(Client);
+        if (check) return Ok(Client);
         return BadRequest($"id: {Client.Id} not found so can not be modified");
 
     }

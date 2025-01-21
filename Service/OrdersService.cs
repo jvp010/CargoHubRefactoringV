@@ -15,7 +15,7 @@ public class OrderService : CrudService<Order>
     {
         Order? holder = _context.Orders.FirstOrDefault(x => x.Id == OrderID);
         if (holder == null) return null;
-        return holder.Items; // Order Item List so far only had always 1 element in their list
+        return holder.Items; 
     }
 
     private bool CheckIfTimeIsCorrect(Order target)

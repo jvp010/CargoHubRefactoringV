@@ -54,7 +54,17 @@ public class CrudService<T> : ICRUDinterface<T> where T : BaseEntity
             .ToList();
     }
 
+    public virtual List<T> GetAll(int pageNumber, int pageSize)
+    {
+        if (pageNumber <= 0 || pageSize <= 0)
+            throw new ArgumentException("Page number and page size must be greater than zero.");
 
+        return _context.Set<T>()
+            .OrderBy(x => x.Id)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+    }
 
 
     public virtual async Task Patch(T target)
