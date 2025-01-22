@@ -28,6 +28,7 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
     public async Task<IActionResult> GetAll(int PageNumber, int PageSize)
     {
         List<T> holder = _CRUDinterface.GetAll(PageNumber,PageSize);
+        if(holder.Count == 0) return BadRequest("");
         return Ok(holder);
        
     }

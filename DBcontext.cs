@@ -131,8 +131,8 @@ public class ModelContext : DbContext
 
         modelBuilder.Entity<Order>()
             .HasOne<Shipment>()
-            .WithOne()
-            .HasForeignKey<Order>(i => i.ShipmentId)
+            .WithMany()
+            .HasForeignKey(i => i.ShipmentId)
             .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
@@ -153,11 +153,7 @@ public class ModelContext : DbContext
             .Property(i => i.Id)
             .IsRequired();
 
-        // modelBuilder.Entity<Shipment>()    => removed to prevent circular fk restraint
-        //     .HasOne<Order>()
-        //     .WithOne()
-        //     .HasForeignKey<Shipment>(i => i.order_id);
-
+       
         modelBuilder.Entity<Shipment>(shipment =>
         {
             shipment.OwnsMany(s => s.Items, item =>
