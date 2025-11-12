@@ -37,7 +37,7 @@ public class ItemLineControllerIntegrationTests
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
         var returnedItemLines = Assert.IsType<List<ItemLine>>(okResult.Value);
-        Assert.Equal(2, returnedItemLines.Count);
+        Assert.Equal(20, returnedItemLines.Count);
     }
 
 }
