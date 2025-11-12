@@ -27,7 +27,6 @@ public class ItemLineControllerIntegrationTests
             new ItemLine { Id = 1, Name = "Fashion", Description = "Trendy clothing" },
             new ItemLine { Id = 2, Name = "Electronics", Description = "Gadgets and devices" }
         };
-
         _context.ItemLines.AddRange(itemLines);
         await _context.SaveChangesAsync();
 
