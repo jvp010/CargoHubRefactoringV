@@ -7,81 +7,79 @@ public class ShipmentService : CrudService<Shipment>
     public ShipmentService(ModelContext context) : base(context)
     {
         _context = context;
-    } // Fixed the missing closing brace here
+    } 
 
     public List<ShipmentItem>? GetItemsInShipment(int shipmentId)
     {
         var shipment = _context.Shipments.FirstOrDefault(s => s.Id == shipmentId);
         return shipment?.Items;
     }
-    // public bool UpdateItemsInShipment(int shipmentId, List<ShipmentItem> items)
-    // {
-    //     var shipment = _context.Shipments.FirstOrDefault(s => s.Id == shipmentId);
-    //     if (shipment == null) return false;
+    public bool UpdateItemsInShipment(int shipmentId, List<ShipmentItem> items)
+    {
 
-    //     var currentItems = shipment.Items;
+        var shipment = _context.Shipments.FirstOrDefault(s => s.Id == shipmentId);
+        if (shipment == null) return false;
 
-    //     foreach (var currentItem in currentItems)
-    //     {
-    //         var found = items.Any(item => item.shipment_item_id == currentItem.shipment_item_id);
-    //         if (!found)
-    //         {
-    //             var inventories = _context.Inventories.Where(i => i.ItemId == currentItem.shipment_item_id).ToList();
-    //             var maxInventory = inventories.OrderByDescending(i => i.TotalOrdered).FirstOrDefault();
-    //             if (maxInventory != null)
-    //             {
-    //                 maxInventory.TotalOrdered -= currentItem.Amount;
-    //                 maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
-    //                 _context.Inventories.Update(maxInventory);
-    //             }
-    //         }
-    //     }
+        // Separate found and not found items
+        var foundItems = new List<ShipmentItem>();
+        var notFoundItems = new List<ShipmentItem>();
 
-    //     foreach (var currentItem in currentItems)
-    //     {
-    //         foreach (var newItem in items)
-    //         {
-    //             if (currentItem.shipment_item_id == newItem.shipment_item_id)
-    //             {
-    //                 var inventories = _context.Inventories.Where(i => i.ItemId == currentItem.shipment_item_id).ToList();
-    //                 var maxInventory = inventories.OrderByDescending(i => i.TotalOrdered).FirstOrDefault();
-    //                 if (maxInventory != null)
-    //                 {
-    //                     maxInventory.TotalOrdered += newItem.Amount - currentItem.Amount;
-    //                     maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
-    //                     _context.Inventories.Update(maxInventory);
-    //                 }
-    //             }
-    //         }
-    //     }
+        foreach (var item in shipment.Items)
+        {
+            var newItem = items.FirstOrDefault(i => i.id == item.id);
+            if (newItem != null)
+            {
+                foundItems.Add(item); 
+            }
+            else
+            {
+                notFoundItems.Add(item); 
+            }
+        }
 
-    //     shipment.Items = items;
-    //     return this.put(shipment);
-        
-    
+        foreach (var item in notFoundItems)
+        {
+            List<Inventory> inventories = _context.Inventories.Where(x => x.ItemId == item.shipment_item_id).ToList();
+            Inventory? maxInventory = inventories.OrderByDescending(x => x.TotalOrdered).FirstOrDefault();
 
-    //     foreach (var item in target.Items)
-    //     {
-    //         if (_context.Items.FirstOrDefault(x => x.Uid == item.shipment_item_id) == null) return null!;
-    //     }  // if item.uid does not exist in items return null
+            if (maxInventory != null)
+            {
+                maxInventory.TotalOrdered -= item.amount;
+                maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
 
-    //     if (target.CreatedAt == "" & target.UpdatedAt == "")
-    //     {
-    //         string time = DateTime.UtcNow.ToString();
-    //         target.CreatedAt = time;
-    //         target.UpdatedAt = time;
-    //     }
+                // Update inventory
+                var inventoryService = new InventoryService(_context);
+                inventoryService.Put(maxInventory);
+            }
+        }
 
-    //     if (CheckIfTimeIsCorrect(target) == false) return null!;
-    //     if (target.Id == 0 & _context.Set<Shipment>().ToList().Count != 0)
-    //     {
-    //         target.Id = _context.Set<Shipment>().OrderBy(x => x.Id).ToList().Last().Id + 1; // autogenereted id when using a large DB
-    //     }
-    //     _context.Set<Shipment>().Add(target);
-    //     _context.SaveChanges();
+        foreach (var newItem in items)
+        {
+            var currentItem = shipment.Items.FirstOrDefault(x => x.id == newItem.id);
+            if (currentItem != null)
+            {
+                List<Inventory> inventories = _context.Inventories.Where(x => x.ItemId == currentItem.shipment_item_id).ToList();
+                Inventory? maxInventory = inventories.OrderByDescending(x => x.TotalOrdered).FirstOrDefault();
 
-    //     return target;
-    // }
+                if (maxInventory != null)
+                {
+                    maxInventory.TotalOrdered += newItem.amount - currentItem.amount;
+                    maxInventory.TotalExpected = maxInventory.TotalOnHand + maxInventory.TotalOrdered;
+
+                    var inventoryService = new InventoryService(_context);
+                    inventoryService.Put(maxInventory);
+                }
+            }
+        }
+
+        shipment.Items = items;
+        this.Put(shipment);
+        _context.SaveChanges();
+
+        return true;
+
+
+    }
 
     public override bool Put(Shipment target)
     {
@@ -93,7 +91,7 @@ public class ShipmentService : CrudService<Shipment>
         foreach (var item in target.Items)
         {
             if (_context.Items.FirstOrDefault(x => x.Uid == item.shipment_item_id) == null) return false!;
-        }   // if item.uid does not exist in items return null
+        }
 
         _context.ChangeTracker.Clear();
         target.CreatedAt = Old.CreatedAt;
@@ -106,12 +104,7 @@ public class ShipmentService : CrudService<Shipment>
         return true;
     }
 
-    public ShipmentItem? GetItemsInShipment_(int ShipmentID)
-    {
-        Shipment? holder = _context.Shipments.FirstOrDefault(x => x.Id == ShipmentID);
-        if (holder == null) return null;
-        return holder.Items[0]; // Shipment Item List so far only had always 1 element in their list
-    }
+   
 
     private bool CheckIfTimeIsCorrect(Shipment target)
     {
@@ -121,4 +114,7 @@ public class ShipmentService : CrudService<Shipment>
         if (CheckCreatedAt == true & CheckUpdatedAt == true) return true;
         return false;
     }
+
+   
+    
 }

@@ -20,10 +20,32 @@ Content-Type: application/json
   "updated_at": ""
 }
 
-####
-
-DELETE https://localhost:5000/api/Client/delete?id=2
-
 
 ####
-GET https://localhost:5000/api/Client/2
+PUT https://localhost:5000/api/Client/Update
+Content-Type: application/json
+
+{
+  "id": 9823,
+  "name": "When you see this it has been changed",
+  "address": "string",
+  "city": "string",
+  "zip_code": "string",
+  "province": "string",
+  "country": "string",
+  "contact_name": "string",
+  "contact_phone": "string",
+  "contact_email": "string",
+  "created_at": "",
+  "updated_at": ""
+}
+
+####
+DELETE https://localhost:5000/api/Client/delete?id=9823
+
+
+####
+GET https://localhost:5000/api/Client/9823
+
+####
+GET https://localhost:5000/api/Order/2
